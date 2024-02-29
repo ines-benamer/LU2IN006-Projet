@@ -6,7 +6,7 @@
 #include "Chaine.h"
 #include "SVGwriter.h"
 
-int main(int argc, char *argv)
+int main(int argc, char **argv)
 {
 
     if (argc != 2)
@@ -16,9 +16,9 @@ int main(int argc, char *argv)
     FILE *f = fopen(argv[1], "r");
 
     Chaines *fic_lu = lectureChaines(f);
-
+    Chaines *C = (Chaines *)malloc(sizeof(Chaines));
     FILE *f2 = fopen("test_ecriture.txt", "r");
-    ecrireChaines(f2);
+    ecrireChaines(C, f2);
 
     afficheChainesSVG(fic_lu, "TestAffichage");
 

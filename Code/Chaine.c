@@ -9,7 +9,6 @@
 Chaines *lectureChaines(FILE *f)
 {
     Chaines *chaine = (Chaines *)malloc(sizeof(Chaines));
-    char buffer[BUFSIZ];
     fscanf(f, "NbChain: %d\n", &(chaine->nbChaines));
     fscanf(f, "Gamma: %d\n", &(chaine->gamma));
 
