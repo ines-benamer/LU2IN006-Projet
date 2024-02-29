@@ -136,12 +136,26 @@ double longueurChaine(CellChaine *c)
 {
     CellPoint *points_1 = NULL;
     double longueur = 0;
-    CellPoint *points_2 = c->points;
-    for (points_2; points_2; points_2 = points_2->suiv)
+    CellPoint *points_2;
+    for (points_2 = c->points; points_2; points_2 = points_2->suiv)
     {
         double distance = sqrt(pow((points_2->x - points_1->x), 2) + pow((points_2->y - points_1->y), 2));
         longueur += distance;
         points_1 = points_2;
     }
     return longueur;
+}
+
+double longueurTotale(Chaines *C)
+{
+    double total = 0;
+
+    CellChaine *chaine = C->chaines;
+
+    while (chaine)
+    {
+        total += longueurChaine(chaine);
+        chaine = chaine->suiv;
+    }
+    return total;
 }
