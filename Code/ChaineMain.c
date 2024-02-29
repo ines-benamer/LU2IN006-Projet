@@ -18,6 +18,8 @@ int main(int argc, char* argv) {
     FILE* f2 = fopen("test_ecriture.txt", "r");
     ecrireChaines(f2);
 
+    afficheChainesSVG(fic_lu, "TestAffichage");
+
     return 0;
 }
 
