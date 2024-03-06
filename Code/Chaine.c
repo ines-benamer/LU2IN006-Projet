@@ -62,7 +62,7 @@ void ecrireChaines(Chaines *C, FILE *f)
     {
         fprintf(f, "%d ", chaine_cour->numero);
         int compteur = 0;
-        char *str = ""; // Chaîne de caractères temporaire dans laquelle on va stocker les points de la ligne
+        char str[] = ""; // Chaîne de caractères temporaire dans laquelle on va stocker les points de la ligne
         CellPoint *point_cour = chaine_cour->points;
 
         while (point_cour)
