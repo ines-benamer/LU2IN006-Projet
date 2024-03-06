@@ -56,7 +56,7 @@ void ecrireChaines(Chaines *C, FILE *f)
     fprintf(f, "Gamma: %d\n", C->gamma);
     CellChaine *chaine_cour = C->chaines;
 
-    char *tmp = "";
+    char tmp[20];
 
     while (chaine_cour)
     {
@@ -83,7 +83,6 @@ void ecrireChaines(Chaines *C, FILE *f)
 
 void afficheChainesSVG(Chaines *C, char *nomInstance)
 {
-    int i;
     double maxx = 0, maxy = 0, minx = 1e6, miny = 1e6;
     CellChaine *ccour;
     CellPoint *pcour;
