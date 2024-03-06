@@ -52,15 +52,17 @@ Chaines *lectureChaines(FILE *f)
 
 void ecrireChaines(Chaines *C, FILE *f)
 {
-
     fprintf(f, "NbChain: %d\n", C->nbChaines);
     fprintf(f, "Gamma: %d\n", C->gamma);
     CellChaine *chaine_cour = C->chaines;
+
 
     char tmp[20];
 
     while (chaine_cour)
     {
+
+        printf("on est là\n");
         fprintf(f, "%d ", chaine_cour->numero);
         int compteur = 0;
         char str[100] = ""; // Chaîne de caractères temporaire dans laquelle on va stocker les points de la ligne
@@ -68,6 +70,7 @@ void ecrireChaines(Chaines *C, FILE *f)
 
         while (point_cour)
         { // On parcourt la liste chaînée de points en
+            printf("on est ici\n");
             snprintf(tmp, 10, "%f", point_cour->x);
             strcat(str, tmp);
             strcat(str, " ");
