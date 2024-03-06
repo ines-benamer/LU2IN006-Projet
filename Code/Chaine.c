@@ -70,7 +70,7 @@ void ecrireChaines(Chaines *C, FILE *f)
             sprintf(tmp, "%s", point_cour->x);
             strcat(str, tmp);
             strcat(str, " ");
-            sprintf(tmp, "%f", point_cour->y);
+            sprintf(tmp, "%s", point_cour->y);
             strcat(str, tmp);
             strcat(str, " ");
             compteur++;
