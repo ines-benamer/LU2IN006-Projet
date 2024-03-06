@@ -67,10 +67,10 @@ void ecrireChaines(Chaines *C, FILE *f)
 
         while (point_cour)
         { // On parcourt la liste chaînée de points en
-            sprintf(tmp, "%s", point_cour->x);
+            snprintf(tmp, 10, "%f", point_cour->x);
             strcat(str, tmp);
             strcat(str, " ");
-            sprintf(tmp, "%s", point_cour->y);
+            sprintf(tmp, 10, "%f", point_cour->y);
             strcat(str, tmp);
             strcat(str, " ");
             compteur++;
