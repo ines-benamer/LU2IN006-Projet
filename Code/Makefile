@@ -2,7 +2,7 @@
 # BENAMER BELKACEM Inès
 
 all : Chaine.o SVGwriter.o main.o 
-	gcc Chaine.o SVGwriter.o main.o -o main
+	gcc Chaine.o SVGwriter.o main.o -o main -lm
 
 Chaine.o : Chaine.c Chaine.h
 	gcc -Wall -c Chaine.c -o Chaine.o -lm
@@ -12,6 +12,10 @@ SVGwriter.o : SVGwriter.c SVGwriter.h
 
 main.o : ChaineMain.c SVGwriter.h Chaine.h
 	gcc -Wall -c ChaineMain.c -o main.o -lm
+
+# main: Chaine.o SVGwriter.o main.o
+#     gcc Chaine.o SVGwriter.o main.o -o main -lm
+
 
 
 clean :
