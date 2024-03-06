@@ -11,10 +11,8 @@ SVGwriter.o : SVGwriter.c SVGwriter.h
 	gcc -Wall -c SVGwriter.c -o SVGwriter.o
 
 main.o : ChaineMain.c SVGwriter.h Chaine.h
-	gcc -Wall -c ChaineMain.c -o main.o -lm
+	gcc -Wall -c ChaineMain.c -o main.o
 
-# main: Chaine.o SVGwriter.o main.o
-#     gcc Chaine.o SVGwriter.o main.o -o main -lm
 
 
 
