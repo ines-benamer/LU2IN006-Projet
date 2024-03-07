@@ -62,7 +62,6 @@ void ecrireChaines(Chaines *C, FILE *f)
     while (chaine_cour)
     {
 
-        printf("on est là\n");
         fprintf(f, "%d ", chaine_cour->numero);
         int compteur = 0;
         char str[100] = ""; // Chaîne de caractères temporaire dans laquelle on va stocker les points de la ligne
