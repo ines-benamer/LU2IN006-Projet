@@ -30,6 +30,7 @@ void ecrireChaines(Chaines *C, FILE *f);
 void afficheChainesSVG(Chaines *C, char *nomInstance);
 double longueurChaine(CellChaine *c);
 double longueurTotale(Chaines *C);
+int comptePointsChaine(CellChaine *C);
 int comptePointsTotal(Chaines *C);
 
 #endif
