@@ -7,19 +7,16 @@
 #include "SVGwriter.h"
 
 // Question 1 :
-Chaines *lectureChaines(FILE *f)
-{
+Chaines *lectureChaines(FILE *f){
     Chaines *chaine = (Chaines *)malloc(sizeof(Chaines));
     fscanf(f, "NbChain: %d\n", &(chaine->nbChaines));
     fscanf(f, "Gamma: %d\n", &(chaine->gamma));
 
     chaine->chaines = NULL;
 
-    for (int i = 0; i < chaine->nbChaines; i++)
-    {
+    for (int i = 0; i < chaine->nbChaines; i++){
         CellChaine *nouvelleChaine = (CellChaine *)malloc(sizeof(CellChaine));
-        if (!nouvelleChaine)
-        {
+        if (!nouvelleChaine){
             fprintf(stderr, "Erreure d'allocation de mémoire\n");
             return NULL;
         }
@@ -28,11 +25,9 @@ Chaines *lectureChaines(FILE *f)
 
         int nbpoints;
         fscanf(f, "%d", &nbpoints);
-        for (int j = 0; j < nbpoints; j++)
-        {
+        for (int j = 0; j < nbpoints; j++){
             CellPoint *nouveauPoint = (CellPoint *)malloc(sizeof(CellPoint));
-            if (!nouveauPoint)
-            {
+            if (!nouveauPoint){
                 fprintf(stderr, "erreure d'allocation de mémoire");
                 return NULL;
             }
@@ -50,25 +45,18 @@ Chaines *lectureChaines(FILE *f)
 
 // Question 2
 
-void ecrireChaines(Chaines *C, FILE *f)
-{
+void ecrireChaines(Chaines *C, FILE *f){
     fprintf(f, "NbChain: %d\n", C->nbChaines);
     fprintf(f, "Gamma: %d\n", C->gamma);
     CellChaine *chaine_cour = C->chaines;
-
-
     char tmp[20];
-
-    while (chaine_cour)
-    {
-
+    while (chaine_cour){
         fprintf(f, "%d ", chaine_cour->numero);
         int compteur = 0;
         char str[100] = ""; // Chaîne de caractères temporaire dans laquelle on va stocker les points de la ligne
         CellPoint *point_cour = chaine_cour->points;
 
-        while (point_cour)
-        { // On parcourt la liste chaînée de points en points
+        while (point_cour){ // On parcourt la liste chaînée de points en points
             snprintf(tmp, 10, "%f", point_cour->x);
             strcat(str, tmp);
             strcat(str, " ");
@@ -83,19 +71,16 @@ void ecrireChaines(Chaines *C, FILE *f)
     }
 }
 
-void afficheChainesSVG(Chaines *C, char *nomInstance)
-{
+void afficheChainesSVG(Chaines *C, char *nomInstance){
     double maxx = 0, maxy = 0, minx = 1e6, miny = 1e6;
     CellChaine *ccour;
     CellPoint *pcour;
     double precx, precy;
     SVGwriter svg;
     ccour = C->chaines;
-    while (ccour != NULL)
-    {
+    while (ccour != NULL){
         pcour = ccour->points;
-        while (pcour != NULL)
-        {
+        while (pcour != NULL){
             if (maxx < pcour->x)
                 maxx = pcour->x;
             if (maxy < pcour->y)
@@ -110,16 +95,14 @@ void afficheChainesSVG(Chaines *C, char *nomInstance)
     }
     SVGinit(&svg, nomInstance, 500, 500);
     ccour = C->chaines;
-    while (ccour != NULL)
-    {
+    while (ccour != NULL){
         pcour = ccour->points;
         SVGlineRandColor(&svg);
         SVGpoint(&svg, 500 * (pcour->x - minx) / (maxx - minx), 500 * (pcour->y - miny) / (maxy - miny));
         precx = pcour->x;
         precy = pcour->y;
         pcour = pcour->suiv;
-        while (pcour != NULL)
-        {
+        while (pcour != NULL){
             SVGline(&svg, 500 * (precx - minx) / (maxx - minx), 500 * (precy - miny) / (maxy - miny), 500 * (pcour->x - minx) / (maxx - minx), 500 * (pcour->y - miny) / (maxy - miny));
             SVGpoint(&svg, 500 * (pcour->x - minx) / (maxx - minx), 500 * (pcour->y - miny) / (maxy - miny));
             precx = pcour->x;
@@ -133,13 +116,11 @@ void afficheChainesSVG(Chaines *C, char *nomInstance)
 
 // question 4 :
 
-double longueurChaine(CellChaine *c)
-{
+double longueurChaine(CellChaine *c){
     CellPoint *points_1;
     double longueur = 0;
     CellPoint *points_2;
-    for (points_2 = c->points, points_1 = c->points; points_2; points_2 = points_2->suiv)
-    {
+    for (points_2 = c->points, points_1 = c->points; points_2; points_2 = points_2->suiv){
         double distance = sqrt(pow((points_2->x - points_1->x), 2) + pow((points_2->y - points_1->y), 2));
         longueur += distance;
         points_1 = points_2;
@@ -147,16 +128,30 @@ double longueurChaine(CellChaine *c)
     return longueur;
 }
 
-double longueurTotale(Chaines *C)
-{
+double longueurTotale(Chaines *C){
     double total = 0;
-
     CellChaine *chaine = C->chaines;
-
-    while (chaine)
-    {
+    while (chaine){
         total += longueurChaine(chaine);
         chaine = chaine->suiv;
     }
     return total;
+}
+//question 5 :
+int comptePointsChaine(CellChaine *C){
+    CellPoint *point;
+    int nbpoint=0;
+    for(point = C->points; point ;point = point->suiv){
+        nbpoint ++;
+    }
+    return nbpoint;
+}
+
+int comptePointsTotal(Chaines *C){
+    CellChaine *chaine;
+    int nbtotal = 0;
+    for(chaine = C->chaines; chaine ; nbtotal += comptePointsChaine(chaine), chaine = chaine->suiv){
+        continue;
+    }
+    return nbtotal;
 }
