@@ -68,8 +68,7 @@ void ecrireChaines(Chaines *C, FILE *f)
         CellPoint *point_cour = chaine_cour->points;
 
         while (point_cour)
-        { // On parcourt la liste chaînée de points en
-            printf("on est ici\n");
+        { // On parcourt la liste chaînée de points en points
             snprintf(tmp, 10, "%f", point_cour->x);
             strcat(str, tmp);
             strcat(str, " ");
@@ -136,10 +135,10 @@ void afficheChainesSVG(Chaines *C, char *nomInstance)
 
 double longueurChaine(CellChaine *c)
 {
-    CellPoint *points_1 = NULL;
+    CellPoint *points_1;
     double longueur = 0;
     CellPoint *points_2;
-    for (points_2 = c->points; points_2; points_2 = points_2->suiv)
+    for (points_2 = c->points, points_1 = c->points; points_2; points_2 = points_2->suiv)
     {
         double distance = sqrt(pow((points_2->x - points_1->x), 2) + pow((points_2->y - points_1->y), 2));
         longueur += distance;

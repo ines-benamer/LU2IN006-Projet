@@ -8,8 +8,6 @@
 
 int main(int argc, char* argv[])
 {
-    printf("here\n")
-    printf("%d\n", argc);
 
     if (argc != 2)
     {
@@ -32,7 +30,6 @@ int main(int argc, char* argv[])
     }
 
     ecrireChaines(fic_lu, f2);
-    printf("here\n");
 
     afficheChainesSVG(fic_lu, "TestAffichage");
 
