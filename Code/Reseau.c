@@ -22,8 +22,9 @@ CellCommodite* creeCommodite(Noeud* a, Noeud* b){
     com->extrA = a;
     com->extrB = b;
     com->suiv = NULL;
+    return com;
 }
 
 Noeud* rechercheCreeNoeudListe(Reseau *R, double x, double y) {
-
+    return NULL;
 }
