@@ -15,11 +15,13 @@ Chaines *lectureChaines(FILE *f){
     chaine->chaines = NULL;
 
     for (int i = 0; i < chaine->nbChaines; i++){
+        
         CellChaine *nouvelleChaine = (CellChaine *)malloc(sizeof(CellChaine));
         if (!nouvelleChaine){
-            fprintf(stderr, "Erreure d'allocation de mémoire\n");
+            fprintf(stderr, "Erreur d'allocation de mémoire\n");
             return NULL;
         }
+
         fscanf(f, "%d", &(nouvelleChaine->numero));
         nouvelleChaine->points = NULL;
 
@@ -28,7 +30,7 @@ Chaines *lectureChaines(FILE *f){
         for (int j = 0; j < nbpoints; j++){
             CellPoint *nouveauPoint = (CellPoint *)malloc(sizeof(CellPoint));
             if (!nouveauPoint){
-                fprintf(stderr, "erreure d'allocation de mémoire");
+                fprintf(stderr, "erreur d'allocation de mémoire");
                 return NULL;
             }
             fscanf(f, "%lf %lf", &(nouveauPoint->x), &(nouveauPoint->y));
@@ -57,10 +59,10 @@ void ecrireChaines(Chaines *C, FILE *f){
         CellPoint *point_cour = chaine_cour->points;
 
         while (point_cour){ // On parcourt la liste chaînée de points en points
-            snprintf(tmp, 10, "%f", point_cour->x);
+            snprintf(tmp, 10, "%.2f", point_cour->x);
             strcat(str, tmp);
             strcat(str, " ");
-            snprintf(tmp, 10, "%f", point_cour->y);
+            snprintf(tmp, 10, "%.2f", point_cour->y);
             strcat(str, tmp);
             strcat(str, " ");
             compteur++;
