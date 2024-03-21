@@ -77,7 +77,7 @@ Noeud* rechercheCreeNoeudListe(Reseau *R, double x, double y) {
     while (cn) {
         if ( (cn->nd->x==x) && (cn->nd->y==y)){
             trouve = 1;
-            return return cn->nd;
+            return cn->nd;
         }
         cn = cn->suiv;
     }
