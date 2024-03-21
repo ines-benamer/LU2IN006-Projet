@@ -33,9 +33,13 @@ typedef struct {
 
 Noeud* creeNoeud(int num, int x, int y);
 CellCommodite* creeCommodite(Noeud* a, Noeud* b);
+Reseau* creer_reseau(int gamma);
+CellNoeud *cree_cell_noeud(Noeud *noeud);
+void liberer_reseau(Reseau *reseau);
 Noeud* rechercheCreeNoeudListe(Reseau *R, double x, double y);
 Reseau* reconstitueReseauListe(Chaines *C);
 void ecrireReseau(Reseau *R, FILE *f);
+static int nb_voisins(CellNoeud* liste_noeud);
 int nbLiaisons(Reseau *R);
 int nbCommodites(Reseau *R);
 void afficheReseauSVG(Reseau *R, char* nomInstance);
