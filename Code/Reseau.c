@@ -72,7 +72,22 @@ void liberer_reseau(Reseau *reseau) {
 //-----------------------------------------------------------------//
 
 Noeud* rechercheCreeNoeudListe(Reseau *R, double x, double y) {
-
+    int trouve = 0;
+    CellNoeud* cn = R->noeuds;
+    while (cn) {
+        if ( (cn->nd->x==x) && (cn->nd->y==y)){
+            trouve = 1;
+            return return cn->nd;
+        }
+        cn = cn->suiv;
+    }
+    if (!trouve) {
+        Noeud* n = creeNoeud(R->nbNoeuds+1, x, y);
+        R->nbNoeuds ++;
+        R->noeuds = creeCellNoeud(n, R->noeuds);
+        return n;
+    }
+    return NULL;
 }
 
 //-----------------------------------------------------------------//
