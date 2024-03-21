@@ -197,6 +197,55 @@ int nbCommodites(Reseau *R){
 
 //-----------------------------------------------------------------//
 
+void ecrireReseau(Reseau *R, FILE *f){
+    fprintf("NbNoeuds: %d\n", R->nbNoeuds);
+    fprtinf("NbLiaisons: %d\n", nbLiaisons(R));
+    fprintf("NbCommodités: %d\n", nbCommodites(R));
+    fprintf("Gamma: %d\n", R->gamma);
+    fprtinf("\n");
+
+    CellNoeud* cour = R->noeuds;
+    while (cour) {
+        Noeud* n_cour = cour->nd;
+        fprintf(f, "v %d %f %f\n", nc->num, nc->x, nc->y);
+        cour = cour->suiv;
+    }
+    fprintf("\n");
+
+    Noeud* parcourus[R->nbNoeuds];
+    int nb_parcourus = 0;
+
+    cour = R->noeuds;
+    while (cour) {
+        CellNoeud* voisins = cour->nd->voisins;
+        while(voisins) {
+            int parcouru = 0;
+            for (int i=0; i<nb_parcourus; i++){
+                if (parcourus[i]==voisins->nd) {
+                    parcouru = 1;
+                }
+            }
+            if (parcouru==0){
+                fprintf(f, "l %d %d\n", cour->nd->num, voisins->nd->num);
+            }
+            voisins = voisins->suiv;
+        }
+        cour = cour->suiv;
+        parcourus[nb_parcourus] = cour->nd;
+        nb_parcourus++;
+    }
+    printf("\n");
+
+    CellCommodite* commodites = R->commodites;
+    while (commodites) {
+        fprintf(f, "k %d %d\n", commodites->extrA, commodites->extrB);
+        commodites = commodites->suiv;
+    }
+    
+}
+
+//-----------------------------------------------------------------//
+
 void afficheReseauSVG(Reseau *R, char* nomInstance){
     CellNoeud *courN,*courv;
     SVGwriter svg;
@@ -226,3 +275,4 @@ void afficheReseauSVG(Reseau *R, char* nomInstance){
 }
 
 //-----------------------------------------------------------------//
+
