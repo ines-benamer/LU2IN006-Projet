@@ -8,6 +8,7 @@ typedef struct table {
     int lenght;
 } TableHachage;
 
-
+double cle(double x,double y);
+int hachage(double cle, int lenght);
 
 #endif
