@@ -47,7 +47,7 @@ int main(int argc, char *argv[]){
             ecrireReseau(reseau, f);
             fclose(f);
         }
-
+        afficheReseauSVG(reseau,"SVG_reseau");
         liberer_structure(chaines);
         liberer_reseau(reseau);
         
