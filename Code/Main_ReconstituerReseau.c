@@ -19,10 +19,10 @@ int main(int argc, char *argv[]){
         fprintf(stderr, "Le nombre de choix n'est pas valide\n");
         return 1;
     }
-
+    char *name = argv[0];
     FILE *fichier = fopen(argv[1], "r");
     if (!fichier) {
-        fprintf(stderr, "Le fichier %s n'existe pas\n", fichier);
+        fprintf(stderr, "Le fichier %s n'existe pas\n", name);
         return 1;
     }
 
