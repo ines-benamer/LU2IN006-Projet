@@ -37,7 +37,7 @@ int main(int argc, char *argv[]){
         Reseau *reseau = reconstitueReseauListe(chaines);
 
         if (!reseau) {
-            //ajouter la fonction pour liberer la chaine 
+            liberer_structure(chaines);
             fclose(fichier);
             return 1;
         }
@@ -48,7 +48,9 @@ int main(int argc, char *argv[]){
             fclose(f);
         }
 
+        liberer_structure(chaines);
         liberer_reseau(reseau);
+        
     }
 
 

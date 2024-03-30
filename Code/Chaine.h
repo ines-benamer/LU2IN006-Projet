@@ -32,5 +32,9 @@ double longueurChaine(CellChaine *c);
 double longueurTotale(Chaines *C);
 int comptePointsChaine(CellChaine *C);
 int comptePointsTotal(Chaines *C);
-
+void libere_point(CellPoint *point);
+void liberer_liste_points(CellPoint *liste);
+void librer_chaine(CellChaine *chaine);
+void liberer_liste_chaines(CellChaine *liste);
+void liberer_structure(Chaines *structt);
 #endif

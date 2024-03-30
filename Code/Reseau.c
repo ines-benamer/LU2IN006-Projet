@@ -160,8 +160,6 @@ Reseau* reconstitueReseauListe(Chaines *C){
 
 //exercice 3 :
 
-void ecrireReseau(Reseau *R, FILE *f){}
-
 //-----------------------------------------------------------------//
 
 static int nb_voisins(CellNoeud* liste_noeud){

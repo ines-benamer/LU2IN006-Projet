@@ -45,6 +45,7 @@ Chaines *lectureChaines(FILE *f){
     return chaine;
 }
 
+//-----------------------------------------------------------------------//
 // Question 2
 
 void ecrireChaines(Chaines *C, FILE *f){
@@ -72,6 +73,8 @@ void ecrireChaines(Chaines *C, FILE *f){
         chaine_cour = chaine_cour->suiv;
     }
 }
+
+//-----------------------------------------------------------------------//
 
 void afficheChainesSVG(Chaines *C, char *nomInstance){
     double maxx = 0, maxy = 0, minx = 1e6, miny = 1e6;
@@ -116,6 +119,7 @@ void afficheChainesSVG(Chaines *C, char *nomInstance){
     SVGfinalize(&svg);
 }
 
+//-----------------------------------------------------------------------//
 // question 4 :
 
 double longueurChaine(CellChaine *c){
@@ -130,6 +134,8 @@ double longueurChaine(CellChaine *c){
     return longueur;
 }
 
+//-----------------------------------------------------------------------//
+
 double longueurTotale(Chaines *C){
     double total = 0;
     CellChaine *chaine = C->chaines;
@@ -139,7 +145,10 @@ double longueurTotale(Chaines *C){
     }
     return total;
 }
+
+//-----------------------------------------------------------------------//
 //question 5 :
+
 int comptePointsChaine(CellChaine *C){
     CellPoint *point;
     int nbpoint=0;
@@ -148,12 +157,65 @@ int comptePointsChaine(CellChaine *C){
     }
     return nbpoint;
 }
-
+//-----------------------------------------------------------------------//
 int comptePointsTotal(Chaines *C){
+
     CellChaine *chaine;
     int nbtotal = 0;
     for(chaine = C->chaines; chaine ; nbtotal += comptePointsChaine(chaine), chaine = chaine->suiv){
         continue;
     }
     return nbtotal;
+}
+
+//-----------------------------------------------------------------------//
+
+void libere_point(CellPoint *point){
+    free(point);
+}
+
+//-----------------------------------------------------------------------//
+
+void liberer_liste_points(CellPoint *liste){
+    CellPoint *ptr = NULL;
+
+    while (liste){
+        ptr = liste->suiv;
+        libere_point(liste);
+        liste = ptr;
+    }
+    
+}
+
+//-----------------------------------------------------------------------//
+
+void librer_chaine(CellChaine *chaine){
+    if(! chaine){
+        return ;
+    }
+    liberer_liste_points(chaine->points);
+    free(chaine);
+}
+
+//-----------------------------------------------------------------------//
+
+void liberer_liste_chaines(CellChaine *liste){
+    CellChaine *chaine = NULL;
+    while (liste){
+        chaine = liste->suiv;
+        librer_chaine(liste);
+        liste = chaine;
+    }
+    
+}
+
+//-----------------------------------------------------------------------//
+
+void liberer_structure(Chaines *structt){
+    if(!structt){
+        return ;
+    }
+    liberer_liste_chaines(structt->chaines);
+    free(structt);
+
 }
