@@ -2,9 +2,9 @@
 #define __HACHAGE_H__
 #include <stdio.h>
 #include "Reseau.h"
-
+#include "Chaine.h"
 typedef struct table {
-    cellnoeud** table;
+    cellnoeud **table;
     int lenght;
 } TableHachage;
 
