@@ -2,6 +2,7 @@
 #define __GRAPHE_H__
 #include <stdlib.h>
 #include <stdio.h>
+#include "Reseau.h"
 
 typedef struct{
     int u,v; /* Numeros des sommets extremite */
@@ -32,4 +33,5 @@ typedef struct{
     Commod* T_commod; /* Tableau des commodites */
 } Graphe;
 
+Graphe* creerGraphe(Reseau* r);
 #endif
