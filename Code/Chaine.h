@@ -2,6 +2,8 @@
 #define __CHAINE_H__
 #include <stdio.h>
 
+
+
 /* Liste chainee de points */
 typedef struct cellPoint
 {
@@ -22,7 +24,7 @@ typedef struct
 {
   int gamma;           /* Nombre maximal de fibres par cable */
   int nbChaines;       /* Nombre de chaines */
-  CellChaine *chaines; /* La liste chainee des chaines */
+  CellChaine *chaines; /* La liste chainée des chaines */
 } Chaines;
 
 Chaines *lectureChaines(FILE *f);

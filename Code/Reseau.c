@@ -24,11 +24,12 @@ CellCommodite* creeCommodite(Noeud* a, Noeud* b){
     com->extrA = a;
     com->extrB = b;
     com->suiv = NULL;
+    return com;
 }
 
 //-----------------------------------------------------------------//
 
-Reseau* creer_reseau(int gamma){
+Reseau* creeReseau(int gamma){
     Reseau *reseau = malloc(sizeof(Reseau));
     reseau->gamma = gamma;
     reseau->commodites = NULL;
@@ -39,11 +40,22 @@ Reseau* creer_reseau(int gamma){
 
 //-----------------------------------------------------------------//
 
-CellNoeud *cree_cell_noeud(Noeud *noeud) {
+CellNoeud *creeCellNoeud(Noeud *noeud) {
     CellNoeud *cell = (CellNoeud *)malloc(sizeof(CellNoeud));
     cell->nd = noeud;
     cell->suiv = NULL;
     return cell;
+}
+
+CellNoeud* dupliqueCellNoeud(CellNoeud* cn) {
+    CellNoeud* new = creeCellNoeud(cn->noeud);
+    return new;
+}
+
+void ajouterNoeud(Reseau* R, Noeud* n) {
+    CellNoeud* cn = creeCellNoeud(n);
+    cn->suiv = R->noeuds;
+    R->noeuds = cn;
 }
 
 //-----------------------------------------------------------------//
@@ -81,10 +93,12 @@ Noeud* rechercheCreeNoeudListe(Reseau *R, double x, double y) {
         }
         cn = cn->suiv;
     }
-    if (!trouve) {
+    if (!trouve) { // Alors on crée un nouveau noeud et on l'ajoute au réseau
         Noeud* n = creeNoeud(R->nbNoeuds+1, x, y);
         R->nbNoeuds ++;
-        R->noeuds = creeCellNoeud(n, R->noeuds);
+        CellNoeud* new_c = creeCellNoeud(n);
+        new_c->suiv = R->noeuds;
+        R->noeuds = new_c;
         return n;
     }
     return NULL;
@@ -93,7 +107,7 @@ Noeud* rechercheCreeNoeudListe(Reseau *R, double x, double y) {
 //-----------------------------------------------------------------//
 
 Reseau* reconstitueReseauListe(Chaines *C){
-    Reseau *reseau = creer_reseau(C->gamma);
+    Reseau *reseau = creeReseau(C->gamma);
     for(CellChaine *chaine = C->chaines; chaine;chaine = chaine->suiv){// on parcours les chaines 
     Noeud *premier = NULL;
     Noeud *second = NULL;
@@ -118,13 +132,13 @@ Reseau* reconstitueReseauListe(Chaines *C){
                     continue;
                 }
 
-                CellNoeud *noeud_voisin = cree_cell_noeud(second); //c'est le noeud correspondant au voisin, pour l'ajouter dans les voisins
+                CellNoeud *noeud_voisin = creeCellNoeud(second); //c'est le noeud correspondant au voisin, pour l'ajouter dans les voisins
                 if(! noeud_voisin){
                     liberer_reseau(reseau);
                     return NULL;
                 }
 
-                CellNoeud *noeud_courant = cree_cell_noeud(noeud); //c'est le noeud courant 
+                CellNoeud *noeud_courant = creeCellNoeud(noeud); //c'est le noeud courant 
                 if(! noeud_voisin){
                     liberer_reseau(reseau);
                     free(noeud_voisin);
@@ -163,7 +177,7 @@ Reseau* reconstitueReseauListe(Chaines *C){
 //-----------------------------------------------------------------//
 
 static int nb_voisins(CellNoeud* liste_noeud){
-    int nb =0 ;
+    int nb = 0 ;
     for(;liste_noeud;liste_noeud = liste_noeud->suiv,nb++){
         continue;
     }
@@ -196,19 +210,19 @@ int nbCommodites(Reseau *R){
 //-----------------------------------------------------------------//
 
 void ecrireReseau(Reseau *R, FILE *f){
-    fprintf("NbNoeuds: %d\n", R->nbNoeuds);
-    fprtinf("NbLiaisons: %d\n", nbLiaisons(R));
-    fprintf("NbCommodités: %d\n", nbCommodites(R));
-    fprintf("Gamma: %d\n", R->gamma);
-    fprtinf("\n");
+    fprintf(f, "NbNoeuds: %d\n", R->nbNoeuds);
+    fprintf(f, "NbLiaisons: %d\n", nbLiaisons(R));
+    fprintf(f, "NbCommodités: %d\n", nbCommodites(R));
+    fprintf(f, "Gamma: %d\n", R->gamma);
+    fprintf(f, "\n");
 
     CellNoeud* cour = R->noeuds;
     while (cour) {
-        Noeud* n_cour = cour->nd;
+        Noeud* nc = cour->nd;
         fprintf(f, "v %d %f %f\n", nc->num, nc->x, nc->y);
         cour = cour->suiv;
     }
-    fprintf("\n");
+    fprintf(f, "\n");
 
     Noeud* parcourus[R->nbNoeuds];
     int nb_parcourus = 0;
@@ -232,11 +246,11 @@ void ecrireReseau(Reseau *R, FILE *f){
         parcourus[nb_parcourus] = cour->nd;
         nb_parcourus++;
     }
-    printf("\n");
+    fprintf(f, "\n");
 
     CellCommodite* commodites = R->commodites;
     while (commodites) {
-        fprintf(f, "k %d %d\n", commodites->extrA, commodites->extrB);
+        fprintf(f, "k %d %d\n", commodites->extrA->num, commodites->extrB->num);
         commodites = commodites->suiv;
     }
     
@@ -273,4 +287,3 @@ void afficheReseauSVG(Reseau *R, char* nomInstance){
 }
 
 //-----------------------------------------------------------------//
-

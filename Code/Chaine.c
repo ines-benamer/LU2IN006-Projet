@@ -140,7 +140,7 @@ double longueurTotale(Chaines *C){
     double total = 0;
     CellChaine *chaine = C->chaines;
     while (chaine){
-        total += longueurChaine(chaine);
+        total ++;
         chaine = chaine->suiv;
     }
     return total;
