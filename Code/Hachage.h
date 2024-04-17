@@ -6,7 +6,7 @@
 #include <string.h>
 
 #include "Reseau.h"
-
+#include "Chaine.h"
 typedef struct table {
     Cellnoeud** table;
     int lenght;
