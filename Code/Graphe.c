@@ -123,7 +123,46 @@ Graphe* creerGraphe(Reseau* r){
 
     // boucle pour creer les sommets du graphe a partir des noeuds du reseau 
     for(CellNoeud *noeud = r->noeuds;noeud;noeud = noeud->suiv){
-        graphe->T_som[noeud->nd->num -1] = 0;
+        graphe->T_som[noeud->nd->num -1] = cree_sommet(noeud->nd->num -1,noeud->nd->x,noeud->nd->y);
+        if(graphe->T_som[noeud->nd->num -1]){
+            liberer_graphe(graphe);
+            return NULL;
+        }
+    //bouvle pour creer les aretes des voisins des noeuds 
+        for(CellNoeud *voisin = noeud->nd->voisins;voisin;voisin = voisin->suiv){
+        Arete *arete = NULL ;
+        Sommet *v = graphe->T_som[voisin->nd->num -1]; //on teste si le sommet voisin existe 
+            if(v){ // si il existe l'arete entre les deux existe forcement 
+                for(Cellule_arete *cellule = v->L_voisin;cellule;cellule=cellule->suiv){
+                    if(cellule->a->u == noeud->nd->num -1 || cellule->a->v == noeud->nd->num -1){
+                        arete = cellule->a;
+                        break;
+                    }
+                }
+            }
+            else{
+                //si le sommet n'existe pas donc l'arete aussi, donc on creer l'arete
+                arete = cree_arete(noeud->nd->num -1,voisin->nd->num -1);
+            }
+            if(!arete){
+                liberer_graphe(graphe);
+                return NULL;
+            }
+
+            Cellule_arete *cell = cree_cellule_arete(arete);
+                if(!cell){
+                liberer_graphe(graphe);
+                return NULL;
+            }
+
+            cell->suiv = graphe->T_som[noeud->nd->num - 1]->L_voisin;
+            graphe->T_som[noeud->nd->num -1]->L_voisin = cell;
+
+
+        }
+
     }
 
-}// a finir c'est trop long 
+    return graphe;
+
+}
