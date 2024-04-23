@@ -60,6 +60,33 @@ void ajouterNoeud(Reseau* R, Noeud* n) {
 
 //-----------------------------------------------------------------//
 
+void rendreVoisins(Noeud* n1, Noeud* n2) {
+
+    ajouteVoisin(n1, n2);
+    ajouteVoisin(n2, n1);
+
+}
+
+void ajouteVoisin(Noeud* n1, Noeud* n2) {
+    // Vérifier si ils sont déjà voisins
+    CellNoeud* voisin = n1->voisins;
+    while (voisin) {
+        if (voisin->nd==n2) {
+            return;
+        }
+        voisin = voisin->suiv;
+    }
+
+    // On crée de CellNoeud à partir de n1 et n2 pour pouvoir les ajouter en tant que voisins.
+    CellNoeud* cn1 = creeCellNoeud(n2);
+
+    //Les voisins de n1 sont ses voisins actuels auquels on ajoute le CellNoeud issu de n2
+    cn2->suiv = n1->voisins;
+    n1->voisins = cn2;
+}
+
+//-----------------------------------------------------------------//
+
 void liberer_reseau(Reseau *reseau) {
     if (!reseau) return;
     // Libération des commodités
@@ -106,9 +133,31 @@ Noeud* rechercheCreeNoeudListe(Reseau *R, double x, double y) {
 
 //-----------------------------------------------------------------//
 
+
+void rechercheCreeCellCommodite(Reseau* R, Noeud* extrA, Noeud* extrB) {
+    CellCommodite* current_commodite = R->commodites;
+
+    while (current_commodite) { // On parcourt les commodités
+        // S'il existe une commodité qui a pour extremités les deux noeuds en paramètre, on la renvoie
+        if ( (current_commodite->extrA == extrA && current_commodite->extrB==extrB) || (current_commodite->extrA == extrB && current_commodite->extrB == extrA) ){
+            return;
+        }
+        current_commodite = current_commodite->suiv;
+    }
+
+    // On n'a pas trouvé de commodité dont les deux extrémités sont les deux passés en paramètre
+    // Alors on crée cette commodité et on l'ajoute à la liste des commodités du réseau
+    CellCommodite* new = creeCommodite(extrA, extrB);
+    new->suiv = R->commodites;
+    R->commodites = new;
+}
+
+//-----------------------------------------------------------------//
+
+
 Reseau* reconstitueReseauListe(Chaines *C){
     Reseau *reseau = creeReseau(C->gamma);
-    for(CellChaine *chaine = C->chaines; chaine;chaine = chaine->suiv){// on parcours les chaines 
+    for(CellChaine *chaine = C->chaines; chaine;chaine = chaine->suiv){// on parcourt les chaines 
     Noeud *premier = NULL;
     Noeud *second = NULL;
         

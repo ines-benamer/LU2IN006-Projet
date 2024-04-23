@@ -39,7 +39,7 @@ Noeud* rechercheCreeNoeudHachage(Reseau* R, TableHachage* H, double x, double y)
     double cle = cle(x, y);
     int indice = hachage(cle, H->length);
     int trouve = 0;
-    cellnoeud* current = H->table[indice];
+    CellNoeud* current = H->table[indice];
 
     while (current){ // On parcourt la liste des noeuds pour voir si le noeud recherché existe 
         if (current->nd->x==x && current->nd->y==y) {
@@ -64,59 +64,53 @@ Noeud* rechercheCreeNoeudHachage(Reseau* R, TableHachage* H, double x, double y)
     }
 }
 
-TableHachage* chainesToHachage(Chaines*C, int M) {
-    TableHachage* tableH = creeTableHachage(M);
-
-    CellChaine* chaine_cour = C->chaines;
-    CellPoint* point_cour = chaine_cour-> points;
-    int num = 0;
-
-    while (chaine_cour) {
-
-        while (point_cour) {
-
-            Noeud* n = creeNoeud(num, point_cour->x, point_cour->y);    
-            num ++;
-            CellNoeud* cn = creeCellNoeud(n);
-
-            double cle = cle(point_cour->x, point_cour->y);
-            int hachage = hachage(cle, M);
-
-            cn->suiv = tableH[hachage];
-            tableH[hachage] = cn;
-
-            point_cour = point_cour->suiv;
-        }
-
-        chaine_cour = chaine_cour->suiv;
-        if (chaine_cour) {
-            point_cour = chaine_cour->points;
-        }
-    }
-
-    return tableH;
-}
-
-void hachageToReseau(TableHachage* tableH, Reseau* R) {
-    for (int i=0; i<tableH->length; i++) { // On parcourt toutes les cases de la table
-        CellNoeud* cn = tableH->table[i];
-
-        while (cn) { // Pour chaque case, on duplique le cellnoeud et on l'ajoute au réseau
-            CellNoeud* cn_res = dupliqueCellNoeud(cn);
-            cn_res->suiv = R->noeuds;
-            R->noeuds = cn_res;
-            cn = cn->suiv;
-        }
-    }
-}
 
 Reseau* reconstitueReseauHachage(Chaines* C, int M){
     Reseau* reseau = creeReseau(C->gamma);
+    TableHachage* table = creeTableHachage(M);
 
-    // On crée la table de hachage à partir de la liste chaînée de chaînes de points
-    TableHachage* tableH = chainesToHachage(C, M);
-    // Puis on crée le réseau à partir de la table de hachage
-    hachageToReseau(tableH, reseau);
+    CellChaine* current_chaine = C->chaines;
+
+    Noeud* extrA;
+    Noeud* extrB;
+    Noeud* V;
+
+    while (current_chaine) {
+
+        if (!(current_chaine->points)) {
+            break;
+        }
+
+        CellPoint* current_point = current_chaine->points;
+        extrA = NULL;
+        extrB = NULL;
+        V = NULL;
+
+        while (current_point) {
+            if (!extrA) {
+                extrA = rechercheCreeNoeudHachage(reseau, table, current_point->x, current_point->y);
+            }
+
+            // On ajoute le point courant au réseau et à la table de hachage s'il n'existe pas
+            // Et on indique le dernier point de la chaîne comme étant ce point
+            extrB = rechercheCreeNoeudHachage(reseau, table, current_point->x, current_point->y); 
+
+            // On ajoute le point courant aux voisins du point précédent et inversement si ils ne sont pas déjà voisins
+            ajouteVoisins(V, current_point);
+            // On modifie le point 
+            V = current_point;
+
+            current_point = current_point->suiv;
+        }   
+
+        if (extrA!=extrB) { // Si les deux extremités ne sont pas les mêmes (donc si la commodité n'est pas vide ou à un seul point)
+            rechercheCreeCellCommodite(reseau, extrA, extrB);
+        }
+
+        current_chaine = current_chaine->suiv;
+
+    }
 
     return reseau;
+
 }
