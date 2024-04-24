@@ -78,7 +78,7 @@ Reseau* reconstitueReseauHachage(Chaines* C, int M){
     while (current_chaine) {
 
         if (!(current_chaine->points)) {
-            break;
+            continue;
         }
 
         CellPoint* current_point = current_chaine->points;
@@ -96,9 +96,9 @@ Reseau* reconstitueReseauHachage(Chaines* C, int M){
             extrB = rechercheCreeNoeudHachage(reseau, table, current_point->x, current_point->y); 
 
             // On ajoute le point courant aux voisins du point précédent et inversement si ils ne sont pas déjà voisins
-            ajouteVoisins(V, current_point);
+            rendreVoisins(V, extrB);
             // On modifie le point 
-            V = current_point;
+            V = extrB;
 
             current_point = current_point->suiv;
         }   

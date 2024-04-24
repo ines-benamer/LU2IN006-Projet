@@ -201,7 +201,7 @@ Noeud* rechercheCreeNoeudArbre(Reseau* R, ArbreQuat** a, ArbreQuat* parent, doub
 
     }  
     
-    //Lorsqu'on est sorti de la boucle while sans avoir fait de return ou qu'on n'est pas rentré dans le while, on n'a pas trouvé le noeud, donc on le crée et l'ajoute
+    // Si on passe par la, cela signifie qu'on n'a pas trouvé le noeud, donc on le crée et l'ajouter au réseau et à l'arbre
     Noeud* n = creeNoeud(R->nbNoeuds+1, x, y);
 
     //Ajout du noeud au réseau
@@ -291,4 +291,100 @@ Reseau* ReconstitueReseauArbre(Chaines* C) {
     ArbreQuatToReseau(arbre, reseau);
 
     return reseau;
+}
+
+Reseau* ReconstitueReseauArbre(Chaines* C) {
+    Reseau* reseau = creeReseau(C->gamma);
+
+    double xmin, xmax, ymin, ymax;
+    chaineCoordMinMax(C, &xmin, &ymin, &xmax, &ymax);
+    double coteX = xmax - xmin;
+    double coteY = ymax - ymin;
+    ArbreQuat* arbre = NULL;
+
+    CellChaine* current_chaine = C->chaines;
+
+    while (current_chaine) {
+
+        if (!current_chaine->points) {
+            continue;
+        }
+
+        CellPoint* current_point = current_chaine->points;
+        extrA = NULL;
+        extrB = NULL;
+        V = NULL;
+
+        while (current_point) { // On parcourt tous les points de la chaîne
+
+            double x = current_point->x;
+            double y = current_point->y;
+
+            if (arbre==NULL){ // Si l'arbre n'existe pas encore, on le crée
+                // Les coordonnées du centre de l'arbre sont celles du premier point rencontré (ce dernier sera donc placé au ne)
+                double xmin, xmax, ymin, ymax;
+                chaineCoordMinMax(C, &xmin, &ymin, &xmax, &ymax);
+                double coteX = xmax - xmin;
+                double coteY = ymax - ymin;
+                arbre = creerArbreQuat(x, y, coteX, coteY);
+            }
+
+            // La position du point que l'on veut créer par rapport au centre de l'arbre, ("so", "se", "no" ou "ne")           
+            char* pos = position(x, y, arbre);
+
+            if (!extrA) { // Si on n'a pas encore rencontré de noeud dans la chaîne, on définit la première extrémité
+                // Puis on l'insère 
+                if (strcmp(pos, "so")==0) {
+                    extrA = rechercheCreeNoeudArbre(R, &(arbre->so), arbre, x, y);
+                }
+                if (strcmp(pos, "se")==0) {
+                    extrA = rechercheCreeNoeudArbre(R, &(arbre->se), arbre, x, y);
+                }
+                if (strcmp(pos, "no")==0) {
+                    extrA = rechercheCreeNoeudArbre(R, &(arbre->no), arbre, x, y);
+                }
+                else {
+                    extrA = rechercheCreeNoeudArbre(R, &(arbre->ne), arbre, x, y);
+                }
+            }
+
+            // On met ensuite à jour la deuxième extremité de la commodité
+            // En ce faisant, on crée et ajoute le noeud à l'arbre et au réseau
+            // De plus, s'ils ne sont pas déjà voisins, on rend le noeud courant et précédent voisins
+            if (strcmp(pos, "so")==0) {
+                extrB = rechercheCreeNoeudArbre(R, &(arbre->so), arbre, x, y);
+                rendreVoisins(V, extrB);
+                V = extrB;
+            }
+            if (strcmp(pos, "se")==0) {
+                extrB = rechercheCreeNoeudArbre(R, &(arbre->se), arbre, x, y);
+                rendreVoisins(V, extrB);
+                V = extrB;
+            }
+            if (strcmp(pos, "no")==0) {
+                extrB = rechercheCreeNoeudArbre(R, &(arbre->no), arbre, x, y);
+                rendreVoisins(V, extrB);
+                V = extrB;
+            }
+            else {
+                extrB = rechercheCreeNoeudArbre(R, &(arbre->ne), arbre, x, y);
+                rendreVoisins(V, extrB);
+                V = extrB;
+            }
+
+            // On ajoute la commodité au réseau
+            if (extrA != extrB) { // Si la commodité à une longueur strictement supérieure à 1
+                rechercheCreeCellCommodite(reseau, extrA, extrB);
+            }
+
+            current_point = current_point->suiv;
+
+        }
+
+        current_chaine = current_chaine->suiv;
+
+    }
+
+    return reseau;
+
 }
