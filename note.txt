@@ -1,0 +1,47 @@
+
+Implementer une fonction Reseau* reconstitueReseauListe(Chaines *C); qui reconstruit
+le reseau R a partir de la liste des chaînes C comme indique dans le pseudo-code donn ́e au debut
+de cette partie. Utiliser directement la liste chainee noeuds du reseau pour effectuer les tests de type
+”p 6∈V ”, en exploitant la fonction de question precedente.
+
+j'ai mit des commentaires plus précis sur le code pour que tu puisse comprendre.
+
+explication détaillée : 
+1) 
+
+Initialisation du réseau :
+La fonction commence par créer un réseau en utilisant la fonction creeReseau, en passant le paramètre gamma de la structure Chaines. Ce réseau sera utilisé pour stocker les nœuds et les liaisons entre eux.
+Parcours des chaînes de points :
+En utilisant une boucle for, la fonction parcourt chaque chaîne de points dans la liste de chaînes C.
+À chaque itération, une variable chaine est utilisée pour représenter une chaîne de points.
+Traitement des points dans chaque chaîne :
+Pour chaque chaîne de points, une boucle for parcourt chaque point de la chaîne.
+Pour chaque point, la fonction recherche ou crée un nœud correspondant dans le réseau à l'aide de la fonction rechercheCreeNoeudListe. Si le nœud existe déjà, il est simplement récupéré. Sinon, un nouveau nœud est créé.
+Création des liens entre les nœuds :
+Après la création ou la récupération du nœud pour chaque point, la fonction vérifie s'il existe déjà un lien entre ce nœud et le nœud précédent dans la chaîne.
+Si un lien n'existe pas encore, la fonction crée deux cellules de nœud : une pour le nœud actuel et une pour le nœud précédent, et les ajoute à la liste des voisins de chaque nœud. Cela établit ainsi une liaison bidirectionnelle entre les deux nœuds.
+Création des commodités :
+Une fois que tous les points d'une chaîne ont été traités, la fonction vérifie si un premier nœud a été défini. Si oui, cela signifie que la chaîne a au moins deux points.
+Dans ce cas, une commodité est créée entre le premier et le dernier nœud de la chaîne à l'aide de la fonction creeCommodite. Cette commodité est ensuite ajoutée en tête de la liste des commodités du réseau.
+Gestion des erreurs :
+À chaque étape où une allocation de mémoire est effectuée (pour les nœuds, les liens ou les commodités), la fonction vérifie si l'allocation a réussi. Si une allocation échoue, la fonction libère la mémoire allouée pour le réseau jusqu'à présent et retourne NULL.
+Retour du réseau reconstitué :
+Une fois toutes les chaînes de points traitées, la fonction retourne le réseau reconstitué, contenant tous les nœuds, les liens entre eux et les commodités établies.
+
+2) 
+
+
+Initialisation du réseau : Un réseau est créé en utilisant le paramètre gamma de la structure Chaines.
+Parcours des chaînes : La fonction parcourt chaque chaîne de points dans la liste de chaînes.
+Traitement des points dans chaque chaîne :
+Pour chaque point dans une chaîne, la fonction recherche ou crée un nœud correspondant dans le réseau.
+Elle vérifie également s'il existe déjà un lien entre ce nœud et le précédent.
+Création des liens entre les nœuds :
+Si un lien entre deux nœuds n'existe pas encore, la fonction crée les cellules de nœud correspondantes et les ajoute à la liste des voisins des nœuds concernés.
+Création des commodités :
+Une fois que tous les points d'une chaîne ont été traités, la fonction crée une commodité entre le premier et le dernier nœud de la chaîne, s'ils existent.
+Gestion des erreurs :
+Si une erreur survient lors de la création des nœuds, des liens ou des commodités, la fonction libère la mémoire allouée pour le réseau et renvoie NULL.
+Retour du réseau reconstitué : Une fois toutes les chaînes traitées, le réseau reconstitué est renvoyé.
+
+a toi de choisir l'explication qui te correspondant le mieux .

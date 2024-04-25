@@ -156,69 +156,85 @@ void rechercheCreeCellCommodite(Reseau* R, Noeud* extrA, Noeud* extrB) {
 
 
 Reseau* reconstitueReseauListe(Chaines *C){
+    // Création du réseau à partir du paramètre gamma de la structure Chaines
     Reseau *reseau = creeReseau(C->gamma);
-    for(CellChaine *chaine = C->chaines; chaine;chaine = chaine->suiv){// on parcourt les chaines 
-    Noeud *premier = NULL;
-    Noeud *second = NULL;
+    
+    // Parcours de chaque chaîne dans la liste de chaînes
+    for(CellChaine *chaine = C->chaines; chaine; chaine = chaine->suiv) {
+        // Initialisation des variables pour le premier et le deuxième nœud de la chaîne
+        Noeud *premier = NULL;
+        Noeud *second = NULL;
         
-        for(CellPoint *point = chaine->points;point;point = point->suiv){
-            Noeud *noeud = rechercheCreeNoeudListe(reseau,point->x,point->y);
-            if(! premier){
+        // Parcours de chaque point dans la chaîne
+        for(CellPoint *point = chaine->points; point; point = point->suiv) {
+            // Recherche ou création du nœud correspondant aux coordonnées du point
+            Noeud *noeud = rechercheCreeNoeudListe(reseau, point->x, point->y);
+            
+            // Si premier n'est pas encore défini, assigne le nœud actuel à premier
+            if (!premier) {
                 premier = noeud;
             }
 
-            if(second){ // si second  existe déja donc on a un premier (precedent)
+            // Si le deuxième nœud existe déjà, vérifie si une liaison entre les deux nœuds existe déjà
+            if (second) {
                 int existe = 0;
-                for(CellNoeud *voisins = noeud->voisins;voisins;voisins = voisins->suiv){
-                    if(voisins->nd->num == second->num){ // on verifier si y'a deja la liaison on l'ajoute pas 
-                        existe = 1 ;
+                // Parcours des voisins du nœud actuel pour vérifier l'existence de la liaison
+                for (CellNoeud *voisins = noeud->voisins; voisins; voisins = voisins->suiv) {
+                    if (voisins->nd->num == second->num) {
+                        existe = 1;
                         break;
                     }
                 }
-
-                if(existe){// on verifier si la liaison existe on passe au prochain point 
+                
+                // Si la liaison existe déjà, passe au prochain point
+                if (existe) {
                     second = noeud;
                     continue;
                 }
 
-                CellNoeud *noeud_voisin = creeCellNoeud(second); //c'est le noeud correspondant au voisin, pour l'ajouter dans les voisins
-                if(! noeud_voisin){
+                // Création des cellules de nœud pour les liens entre les nœuds actuel et précédent
+                CellNoeud *noeud_voisin = creeCellNoeud(second);
+                CellNoeud *noeud_courant = creeCellNoeud(noeud);
+                
+                // Vérification de l'allocation de mémoire pour les cellules de nœud
+                if (!noeud_voisin || !noeud_courant) {
+                    // Libération de la mémoire allouée pour le réseau en cas d'échec
                     liberer_reseau(reseau);
-                    return NULL;
-                }
-
-                CellNoeud *noeud_courant = creeCellNoeud(noeud); //c'est le noeud courant 
-                if(! noeud_voisin){
-                    liberer_reseau(reseau);
+                    // Libération de la mémoire allouée pour la cellule de nœud non utilisée
                     free(noeud_voisin);
                     return NULL;
                 }
-                // on ajoute le voisin dans la liste du noeud courant 
-                noeud_voisin ->suiv = noeud->voisins;
+                
+                // Ajout du nœud voisin à la liste des voisins du nœud courant
+                noeud_voisin->suiv = noeud->voisins;
                 noeud->voisins = noeud_voisin;
 
-                //on ajoute le noeud courant dans la liste du voisin courant 
-                noeud_courant ->suiv = second->voisins;
+                // Ajout du nœud courant à la liste des voisins du nœud précédent
+                noeud_courant->suiv = second->voisins;
                 second->voisins = noeud_courant;
             }
-            // on garde le dernier noeud 
+            
+            // Conservation du dernier nœud
             second = noeud;
         }
 
-        if(premier){// on crée la commodites entre premier et second si premier n'est pas NULL
-            CellCommodite *cmd = creeCommodite(premier,second);
-            if(!cmd){
+        // Création d'une commodité entre le premier et le dernier nœud de la chaîne, si le premier nœud est défini
+        if (premier) {
+            CellCommodite *cmd = creeCommodite(premier, second);
+            if (!cmd) {
                 liberer_reseau(reseau);
                 return NULL;
             }
-            // on ajoute la commodites en tete de la liste des commodites
+            // Ajout de la commodité en tête de la liste des commodités du réseau
             cmd->suiv = reseau->commodites;
             reseau->commodites = cmd;
         }
     }
 
+    // Retour du réseau reconstitué
     return reseau;
 }
+
 
 
 //exercice 3 :
