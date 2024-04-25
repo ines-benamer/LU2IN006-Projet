@@ -4,7 +4,7 @@
 CC = gcc
 CFLAGS = -Wall
 
-all : main main_chaines main_reseau
+all : main main_chaines main_reseau compare_all
 
 main : Chaine.o SVGwriter.o main_chaines.o
 	$(CC) Chaine.o SVGwriter.o main_chaines.o -o main -lm
@@ -14,6 +14,9 @@ main_chaines : main_chaines.o SVGwriter.o Chaine.o
 
 main_reseau : main_reseau.o SVGwriter.o Reseau.o Chaine.o
 	$(CC) main_reseau.o SVGwriter.o Reseau.o Chaine.o -o main_reseau -lm
+
+compare_all : compare_all.o SVGwriter.o Chaine.o Reseau.o Hachage.o ArbreQuat.o
+	$(CC) compare_all.o SVGwriter.o Chaine.o Reseau.o Hachage.o ArbreQuat.o -o compare_all
 
 
 Chaine.o : Chaine.c Chaine.h

@@ -27,41 +27,44 @@ int hachage(double cle, int lenght) {
 }
 
 
-// on peux proposer d'autre fonction comme par exemple creer une table de hachage (si ines veux bien sur ;) )
+// on peux proposer d'autre fonction comme par exemple creer une table de hachage \(si ines veux bien sur ;) 
 TableHachage* creeTableHachage(int taille){
     TableHachage* th = (TableHachage*) malloc(sizeof(TableHachage));
-    th->table = (cellnoeud**) malloc(taille * sizeof(cellnoeud*));
+    th->table = (CellNoeud**) malloc(taille * sizeof(CellNoeud*));
     th->length = taille;
     return th;
 }
 
 Noeud* rechercheCreeNoeudHachage(Reseau* R, TableHachage* H, double x, double y){
-    double cle = cle(x, y);
-    int indice = hachage(cle, H->length);
-    int trouve = 0;
+    double clef = cle(x, y);
+    int indice = hachage(clef, H->length);
     CellNoeud* current = H->table[indice];
 
     while (current){ // On parcourt la liste des noeuds pour voir si le noeud recherché existe 
-        if (current->nd->x==x && current->nd->y==y) {
-            trouve = 1;
+        if (current->nd->x==x && current->nd->y==y) { // On trouve un noeud correspondant, on le retourne
             return current->nd;
         }
         current = current->suiv;
     }
-    if (trouve==0){ // On est ici dans le cas où le noeud n'existait pas dans le réseau
 
-        Noeud* new = creeNoeud(R->nbNoeuds+1, x, y); // On crée le noeud
+    // En sortant du while, on n'a pas encore fait de return, donc on n'a pas trouvé de noeud correspondant
+    // Alors on le crée et on l'ajoute
 
-        // On ajoute le nouveau noeud à la table de hachage
-        new->suiv = H->table[indice];
-        h->table[indice] = new;
+    Noeud* n = creeNoeud(R->nbNoeuds+1, x, y); // On crée le noeud
 
-        // On ajoute le nouveau noeud au réseau
-        R->nbNoeuds++;
-        CellNoeud* new_c = creeCellNoeud(new);
-        new_c->suiv = R->noeuds;
-        R->noeuds = new_c
-    }
+    // On ajoute le nouveau noeud à la table de hachage
+    CellNoeud* cn_hach = creeCellNoeud(n);
+    cn_hach->suiv = H->table[indice];
+    H->table[indice] = cn_hach;
+
+    // On ajoute le nouveau noeud au réseau
+    R->nbNoeuds++;
+    CellNoeud* cn_res = creeCellNoeud(n);
+    cn_res->suiv = R->noeuds;
+    R->noeuds = cn_res;
+
+    return n;
+    
 }
 
 

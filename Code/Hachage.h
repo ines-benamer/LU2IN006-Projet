@@ -8,14 +8,14 @@
 #include "Reseau.h"
 #include "Chaine.h"
 typedef struct table {
-    Cellnoeud** table;
-    int lenght;
+    CellNoeud** table;
+    int length;
 } TableHachage;
 
 double cle(double x,double y);
 int hachage(double cle, int lenght);
 TableHachage* creeTableHachage(int taille);
 Noeud* rechercheCreeNoeudHachage(Reseau* R, TableHachage* H, double x, double y);
-Reseau* reconstitueReseauHachage((Chaines *C, int M));
+Reseau* reconstitueReseauHachage(Chaines *C, int M);
 
 #endif

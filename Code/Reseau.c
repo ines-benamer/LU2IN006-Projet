@@ -47,10 +47,18 @@ CellNoeud *creeCellNoeud(Noeud *noeud) {
     return cell;
 }
 
+
+//-----------------------------------------------------------------//
+
+
 CellNoeud* dupliqueCellNoeud(CellNoeud* cn) {
-    CellNoeud* new = creeCellNoeud(cn->noeud);
+    CellNoeud* new = creeCellNoeud(cn->nd);
     return new;
 }
+
+
+//-----------------------------------------------------------------//
+
 
 void ajouterNoeud(Reseau* R, Noeud* n) {
     CellNoeud* cn = creeCellNoeud(n);
@@ -58,14 +66,9 @@ void ajouterNoeud(Reseau* R, Noeud* n) {
     R->noeuds = cn;
 }
 
+
 //-----------------------------------------------------------------//
 
-void rendreVoisins(Noeud* n1, Noeud* n2) {
-
-    ajouteVoisin(n1, n2);
-    ajouteVoisin(n2, n1);
-
-}
 
 void ajouteVoisin(Noeud* n1, Noeud* n2) {
     // Vérifier si ils sont déjà voisins
@@ -81,11 +84,24 @@ void ajouteVoisin(Noeud* n1, Noeud* n2) {
     CellNoeud* cn1 = creeCellNoeud(n2);
 
     //Les voisins de n1 sont ses voisins actuels auquels on ajoute le CellNoeud issu de n2
-    cn2->suiv = n1->voisins;
-    n1->voisins = cn2;
+    cn1->suiv = n1->voisins;
+    n1->voisins = cn1;
 }
 
+
 //-----------------------------------------------------------------//
+
+
+void rendreVoisins(Noeud* n1, Noeud* n2) {
+
+    ajouteVoisin(n1, n2);
+    ajouteVoisin(n2, n1);
+
+}
+
+
+//-----------------------------------------------------------------//
+
 
 void liberer_reseau(Reseau *reseau) {
     if (!reseau) return;
@@ -108,7 +124,9 @@ void liberer_reseau(Reseau *reseau) {
 
 }
 
+
 //-----------------------------------------------------------------//
+
 
 Noeud* rechercheCreeNoeudListe(Reseau *R, double x, double y) {
     int trouve = 0;
@@ -131,6 +149,7 @@ Noeud* rechercheCreeNoeudListe(Reseau *R, double x, double y) {
     return NULL;
 }
 
+
 //-----------------------------------------------------------------//
 
 
@@ -151,6 +170,7 @@ void rechercheCreeCellCommodite(Reseau* R, Noeud* extrA, Noeud* extrB) {
     new->suiv = R->commodites;
     R->commodites = new;
 }
+
 
 //-----------------------------------------------------------------//
 
@@ -221,11 +241,10 @@ Reseau* reconstitueReseauListe(Chaines *C){
 }
 
 
-//exercice 3 :
-
 //-----------------------------------------------------------------//
 
-static int nb_voisins(CellNoeud* liste_noeud){
+
+int nb_voisins(CellNoeud* liste_noeud){
     int nb = 0 ;
     for(;liste_noeud;liste_noeud = liste_noeud->suiv,nb++){
         continue;
@@ -233,7 +252,9 @@ static int nb_voisins(CellNoeud* liste_noeud){
     return nb;
 }
 
+
 //-----------------------------------------------------------------//
+
 
 int nbLiaisons(Reseau *R){
     if(! R) return 0;
@@ -244,7 +265,9 @@ int nbLiaisons(Reseau *R){
     return nb /2 ; //pour eliminer les double liaison 
 }
 
+
 //-----------------------------------------------------------------//
+
 
 int nbCommodites(Reseau *R){
     if(!R)return 0;
@@ -256,7 +279,9 @@ int nbCommodites(Reseau *R){
     return nb;
 }
 
+
 //-----------------------------------------------------------------//
+
 
 void ecrireReseau(Reseau *R, FILE *f){
     fprintf(f, "NbNoeuds: %d\n", R->nbNoeuds);
@@ -305,7 +330,9 @@ void ecrireReseau(Reseau *R, FILE *f){
     
 }
 
+
 //-----------------------------------------------------------------//
+
 
 void afficheReseauSVG(Reseau *R, char* nomInstance){
     CellNoeud *courN,*courv;
@@ -335,4 +362,3 @@ void afficheReseauSVG(Reseau *R, char* nomInstance){
     SVGfinalize(&svg);
 }
 
-//-----------------------------------------------------------------//
