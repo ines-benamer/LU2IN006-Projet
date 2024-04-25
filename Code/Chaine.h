@@ -1,6 +1,7 @@
 #ifndef __CHAINE_H__
 #define __CHAINE_H__
 #include <stdio.h>
+#include <math.h>
 
 
 
@@ -34,6 +35,7 @@ double longueurChaine(CellChaine *c);
 double longueurTotale(Chaines *C);
 int comptePointsChaine(CellChaine *C);
 int comptePointsTotal(Chaines *C);
+Chaines* generationAleatoire(int nbChaines, int nbPointsChaine, int xmax, int ymax);
 void libere_point(CellPoint *point);
 void liberer_liste_points(CellPoint *liste);
 void librer_chaine(CellChaine *chaine);

@@ -16,29 +16,32 @@ main_reseau : main_reseau.o SVGwriter.o Reseau.o Chaine.o
 	$(CC) main_reseau.o SVGwriter.o Reseau.o Chaine.o -o main_reseau -lm
 
 compare_all : compare_all.o SVGwriter.o Chaine.o Reseau.o Hachage.o ArbreQuat.o
-	$(CC) compare_all.o SVGwriter.o Chaine.o Reseau.o Hachage.o ArbreQuat.o -o compare_all
+	$(CC) compare_all.o SVGwriter.o Chaine.o Reseau.o Hachage.o ArbreQuat.o -o compare_all -lm
 
 
 Chaine.o : Chaine.c Chaine.h
-	$(CC) $(CFLAGS) -c Chaine.c -o Chaine.o 
+	$(CC) $(CFLAGS) -c Chaine.c -o Chaine.o -lm
 
 Reseau.o : Reseau.c Reseau.h Chaine.h
-	$(CC) $(CFLAGS) -c Reseau.c -o Reseau.o 
+	$(CC) $(CFLAGS) -c Reseau.c -o Reseau.o -lm
 
 Hachage.o : Hachage.c Hachage.h Reseau.h
-	$(CC) $(CFLAGS) -c Hachage.c -o Hachage.o
+	$(CC) $(CFLAGS) -c Hachage.c -o Hachage.o -lm
 
 ArbreQuat.o : ArbreQuat.c ArbreQuat.h Chaine.h Reseau.h
-	$(CC) $(CFLAGS) -c ArbreQuat.c -o ArbreQuat.o
+	$(CC) $(CFLAGS) -c ArbreQuat.c -o ArbreQuat.o -lm
 
 SVGwriter.o : SVGwriter.c SVGwriter.h
-	$(CC) $(CFLAGS) -c SVGwriter.c -o SVGwriter.o 
+	$(CC) $(CFLAGS) -c SVGwriter.c -o SVGwriter.o -lm
 
 main_chaines.o : main_chaines.c SVGwriter.h Chaine.h
-	$(CC) $(CFLAGS) -c main_chaines.c -o main_chaines.o 
+	$(CC) $(CFLAGS) -c main_chaines.c -o main_chaines.o -lm 
 
 main_reseau.o : main_reseau.c SVGwriter.h Reseau.h Chaine.h
-	$(CC) $(CFLAGS) -c main_reseau.c -o main_reseau.o
+	$(CC) $(CFLAGS) -c main_reseau.c -o main_reseau.o -lm
+
+compare_all.o : compare_all.c SVGwriter.h Chaine.h Reseau.h Hachage.h ArbreQuat.h
+	$(CC) $(FLAGS) -c compare_all.c -o compare_all.o -lm
 
 
 .PHONY : clean

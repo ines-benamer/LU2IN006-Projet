@@ -170,6 +170,42 @@ int comptePointsTotal(Chaines *C){
 
 //-----------------------------------------------------------------------//
 
+
+Chaines* generationAleatoire(int nbChaines, int nbPointsChaine, int xmax, int ymax) {
+
+    CellChaine* current_chaine;
+    CellPoint* current_point;
+
+    Chaines* C = (Chaines*) malloc(sizeof(Chaines));
+    C->gamma = 5;
+    C->nbChaines = nbChaines;
+    C->chaines = NULL;
+
+    for(int i=0; i<nbChaines; i++) {
+        current_chaine = (CellChaine*) malloc(sizeof(CellChaine));
+        current_chaine->numero = i+1;
+        current_chaine->points = NULL;
+        current_chaine->suiv = C->chaines;
+        C->chaines = current_chaine;
+
+        for(int i=0; i<nbPointsChaine; i++){
+            current_point = (CellPoint*) malloc(sizeof(CellPoint));
+            current_point->x = (double) (rand() % (xmax+1));
+            current_point->y = (double)(rand() % (ymax+1));
+            current_point->suiv = current_chaine->points;
+            current_chaine->points = current_point;
+        }
+        
+    }
+
+    return C;
+    
+}
+
+
+//-----------------------------------------------------------------------//
+
+
 void libere_point(CellPoint *point){
     free(point);
 }
