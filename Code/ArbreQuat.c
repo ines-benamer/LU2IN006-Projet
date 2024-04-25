@@ -100,7 +100,7 @@ char* position(double x, double y, ArbreQuat* parent){
         }
         else {
             return "no";
-        }
+        } 
 }
 
 

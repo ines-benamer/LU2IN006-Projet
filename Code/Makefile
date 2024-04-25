@@ -43,4 +43,4 @@ main_reseau.o : main_reseau.c SVGwriter.h Reseau.h Chaine.h
 
 .PHONY : clean
 clean :
-	rm -f *.o main main_chaines main_reseau
+	rm -f *.o main main_chaines main_reseau compare_all
