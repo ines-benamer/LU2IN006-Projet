@@ -43,11 +43,10 @@ int main() {
 
     temps = clock();
     ReconstitueReseauArbre(C);
-    printf("Here\n");
     temps = clock() - temps;
     fprintf(compare_temps, "Temps mis pour reconstituer le réseau avec l'arbre : %lf\n", (double)temps/CLOCKS_PER_SEC);
 
-    for (int i=0; i<2*nb_points; i++){
+    for (int i=0; i<10*nb_points; i++){
 
         temps = clock();
         reconstitueReseauHachage(C, i);

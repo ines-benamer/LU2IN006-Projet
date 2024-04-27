@@ -1,2 +1,6 @@
 .DS_Store
 *.o
+compare_all
+main
+main_chaines
+main_reseau

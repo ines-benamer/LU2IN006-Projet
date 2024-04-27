@@ -46,7 +46,6 @@ int main(){
                         printf("Le fichier a bien été lu et enregistré\n");
 
                         FILE* ecriture_reseau = fopen("ecriture_reseau.txt", "w");
-                        printf("AU SECOURS J'EN PEUX PLUS\n");
                         if (ecriture_reseau){
                             ecrireReseau(reseau, ecriture_reseau);
                             printf("Le réseau a bien été écrit dans le fichier 'ecriture_reseau.txt' \n");

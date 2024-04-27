@@ -94,6 +94,8 @@ void ajouteVoisin(Noeud* n1, Noeud* n2) {
 
 void rendreVoisins(Noeud* n1, Noeud* n2) {
 
+    if (n1==NULL || n2==NULL) { return; }
+
     ajouteVoisin(n1, n2);
     ajouteVoisin(n2, n1);
 
