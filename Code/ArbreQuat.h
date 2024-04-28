@@ -23,5 +23,6 @@ int position(double x, double y, ArbreQuat* parent);
 void insererNoeudArbre(Noeud* n, ArbreQuat** a, ArbreQuat* parent, int* i);
 Noeud* rechercheCreeNoeudArbre(Reseau* R, ArbreQuat** a, ArbreQuat* parent, double x, double y);
 Reseau* ReconstitueReseauArbre(Chaines* C);
+void libereArbreQuat(ArbreQuat * a);
 
 #endif

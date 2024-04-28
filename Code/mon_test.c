@@ -27,7 +27,7 @@ void ecrire_temps_fichier(FILE* f, int nb_chaines, int nb_points_chaines, int xm
     temps = clock() - temps;
     fprintf(f, "Temps mis pour reconstituer le réseau avec l'arbre : %lf secondes\n\n", (double)temps/CLOCKS_PER_SEC);
 
-    for(int m=1; m<2*nb_points_chaines; m++) {
+    for(int m=1; m<100*nb_points_chaines; m+=15) {
         temps = clock();
         reconstitueReseauHachage(C, m);
         temps = clock() - temps;
@@ -50,7 +50,7 @@ int main(){
     int xmax = 5000;
     int ymax = 5000;
 
-    for(int nb_chaines = 500; nb_chaines<=5000; nb_chaines+=500){
+    for(int nb_chaines = 500; nb_chaines<2000; nb_chaines+=500){
 
         fprintf(f, "%d CHAINES\n\n", nb_chaines);
 
