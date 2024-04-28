@@ -19,8 +19,8 @@ typedef struct arbreQuat{
 
 void chaineCoordMinMax(Chaines* C, double* xmin, double* ymin, double* xmax, double* ymax);
 ArbreQuat* creerArbreQuat(double xc, double yc, double coteX, double coteY);
-char* position(double x, double y, ArbreQuat* parent);
-void insererNoeudArbre(Noeud* n, ArbreQuat** a, ArbreQuat* parent);
+int position(double x, double y, ArbreQuat* parent);
+void insererNoeudArbre(Noeud* n, ArbreQuat** a, ArbreQuat* parent, int* i);
 Noeud* rechercheCreeNoeudArbre(Reseau* R, ArbreQuat** a, ArbreQuat* parent, double x, double y);
 Reseau* ReconstitueReseauArbre(Chaines* C);
 

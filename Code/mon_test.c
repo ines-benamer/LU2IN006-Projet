@@ -20,18 +20,18 @@ void ecrire_temps_fichier(FILE* f, int nb_chaines, int nb_points_chaines, int xm
     temps = clock();
     reconstitueReseauListe(C);
     temps = clock() - temps;
-    fprintf(f, "Temps mis pour reconstituer le réseau avec la liste chaînée : %lf\n\n", (double)temps/CLOCKS_PER_SEC);
+    fprintf(f, "Temps mis pour reconstituer le réseau avec la liste chaînée : %lf secondes\n\n", (double)temps/CLOCKS_PER_SEC);
 
     temps = clock();
     ReconstitueReseauArbre(C);
     temps = clock() - temps;
-    fprintf(f, "Temps mis pour reconstituer le réseau avec l'arbre : %lf\n\n", (double)temps/CLOCKS_PER_SEC);
+    fprintf(f, "Temps mis pour reconstituer le réseau avec l'arbre : %lf secondes\n\n", (double)temps/CLOCKS_PER_SEC);
 
     for(int m=1; m<2*nb_points_chaines; m++) {
         temps = clock();
         reconstitueReseauHachage(C, m);
         temps = clock() - temps;
-        fprintf(f, "Temps mis pour reconstituer le réseau avec une table de hachage de taille %d : %lf\n", m, (double)temps/CLOCKS_PER_SEC);
+        fprintf(f, "Temps mis pour reconstituer le réseau avec une table de hachage de taille %d : %lf secondes\n", m, (double)temps/CLOCKS_PER_SEC);
     }
 }
 
