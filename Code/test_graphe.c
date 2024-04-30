@@ -7,44 +7,30 @@
 
 //c'est un brouillon pour tester les fonctions 
 int main() {
-   
-    Reseau* reseau = (Reseau*)malloc(sizeof(Reseau));
+    // Création d'un réseau fictif pour tester
+    int gamma = 2;
+    Reseau* reseau = creeReseau(gamma);
     if (!reseau) {
-        printf("Erreur d'allocation mémoire pour le réseau.\n");
+        printf("Erreur lors de la création du réseau.\n");
         return 1;
     }
 
-    
-    reseau->gamma = 2;
-    reseau->nbNoeuds = 3;
-    reseau->noeuds = NULL;
-
-
+    // Appel de la fonction pour créer le graphe à partir du réseau
     Graphe* graphe = creerGraphe(reseau);
-
-
     if (!graphe) {
         printf("Erreur lors de la création du graphe.\n");
-        free(reseau);
         return 1;
     }
 
+    // Affichage de quelques informations du graphe pour vérification
+    printf("Nombre de sommets dans le graphe : %d\n", graphe->nbsom);
+    printf("Nombre de commodités dans le graphe : %d\n", graphe->nbcommod);
+    printf("Gamma du graphe : %d\n", graphe->gamma);
 
-    int u = 0; 
-    int v = 20; 
-    int nb_aretes = plus_petit_nb_aretes(graphe, u, v);
-    printf ("le nb d'aretes = %d\n", nb_aretes);
-    if (nb_aretes >= 0) {
-        printf("Le plus petit nombre d'arêtes entre les sommets %d et %d est : %d\n", u+1, v+1, nb_aretes);
-    } else {
-        printf("Erreur lors du calcul du nombre d'arêtes entre les sommets %d et %d.\n", u+1, v+1);
-    }
-
-
-    liberer_graphe(graphe);
-    free(reseau);
-
-   
+    // Libération de la mémoire allouée pour le réseau et le graphe
+    // (Vous devez définir vos propres fonctions pour libérer la mémoire)
+    // libérer_reseau(reseau);
+    // liberer_graphe(graphe);
 
     return 0;
 }

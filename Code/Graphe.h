@@ -44,4 +44,6 @@ void liberer_sommet(Sommet *sommet);
 void liberer_arete(Cellule_arete *arete);
 Graphe* creerGraphe(Reseau* r);
 int plus_petit_nb_aretes(Graphe *graphe, int u, int v);
+void MiseAjourAretes(Graphe *g, Sommet *s, Noeud *n);
+
 #endif

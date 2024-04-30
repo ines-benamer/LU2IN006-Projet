@@ -6,6 +6,7 @@
 #include "Hachage.h"
 #include "Reseau.h"
 
+
 //question 4.2 :
 
 double cle(double x,double y){
@@ -115,5 +116,17 @@ Reseau* reconstitueReseauHachage(Chaines* C, int M){
     }
 
     return reseau;
+
+}
+
+void liberer_table_hachage(TableHachage *table ){
+    if(!table->table) return;
+
+    for(int i=0;i < table->length;i++){
+        libererCellNoeuds(table->table[i],0);
+    }
+    free(table);
+    free(table);
+        
 
 }

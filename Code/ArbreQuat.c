@@ -112,7 +112,7 @@ int position(double x, double y, ArbreQuat* parent){
 
 //-----------------------------------------------------------------//
 
-void insererNoeudArbre(Noeud *n, ArbreQuat **a, ArbreQuat *parent)
+/*void insererNoeudArbre(Noeud *n, ArbreQuat **a, ArbreQuat *parent)
 {
     if ((*a) == NULL)
     {
@@ -197,8 +197,12 @@ void insererNoeudArbre(Noeud *n, ArbreQuat **a, ArbreQuat *parent)
                 insererNoeudArbre(n, &((*a)->ne), *a);
         }
     }
-}
-/*void insererNoeudArbre(Noeud* n, ArbreQuat** a, ArbreQuat* parent, int* i) {
+}*/
+
+
+
+
+void insererNoeudArbre(Noeud* n, ArbreQuat** a, ArbreQuat* parent, int* i) {
     *i = *i+1;
     printf("%d je commence a inserer un noeud\n", *i);
 
@@ -347,7 +351,7 @@ void insererNoeudArbre(Noeud *n, ArbreQuat **a, ArbreQuat *parent)
     
     printf("%d fin d'insertion dans un noeud interne\n", *i);
     *i = *i - 1;
-}*/
+}
 
 
 //-----------------------------------------------------------------//
@@ -401,8 +405,8 @@ Noeud* rechercheCreeNoeudArbre(Reseau* R, ArbreQuat** a, ArbreQuat* parent, doub
     R->noeuds = cn;
 
     //Ajout du noeud à l'arbre
-    //int truc = 0;
-    insererNoeudArbre(n, &(*a), parent);
+    int truc = 0;
+    insererNoeudArbre(n, &(*a), parent,&truc);
     
     return n;
     
