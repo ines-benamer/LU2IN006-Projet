@@ -274,72 +274,79 @@ void insererNoeudArbre(Noeud* n, ArbreQuat** a, ArbreQuat* parent, int* i) {
 
 
 Noeud* rechercheCreeNoeudArbre(Reseau* R, ArbreQuat** a, ArbreQuat* parent, double x, double y) {
+    printf("je cherche le noeud %f %f\n", x, y);
 
     if (!a) {
         printf("Pointeur vers un arbre non valide\n");
     }
 
-    if (*a==NULL) { // Dans les cas où on est dans un arbre vide, on crée le noeud et on le renvoie
+    if (*a==NULL) { 
+        // Dans les cas où on est dans un arbre vide
+        // On crée le noeud, on le rajoute au réseau et à l'arbre, et on le renvoie
         Noeud* n = creeNoeud(R->nbNoeuds+1, x, y);
         R->nbNoeuds++;
         int i=0;
+
+        // On insère le noeud dans l'arbre
         insererNoeudArbre(n, a, parent, &i);
+
+        // On insère le noeud dans le réseau
+        CellNoeud* cn = creeCellNoeud(n);
+        cn->suiv = R->noeuds;
+        R->noeuds = cn;      
+
+        printf("j'ai créé le noeud %f %f\n", x, y);
+        return n;  
 
     }
 
+    else if ((*a)->noeud != NULL) { 
+        // Si le noeud de l'arbre actuel n'est pas vide, on est au niveau d'une feuille
 
+        if ((*a)->noeud->x==x && (*a)->noeud->y==y) { // Si cette feuille contient le noeud cherché, on le renvoie
+            printf("j'ai trouvé le noeud %f %f\n", x, y);
+            return (*a)->noeud;
+        }
+        else { // Si la feuille ne contient pas le noeud cherche, on le crée et on l'insère au réseau et à ce niveau de l'arbre
+            Noeud* n = creeNoeud(R->nbNoeuds+1, x, y);
+            R->nbNoeuds++;
+            int i=0;
 
-    ArbreQuat* arbre_cour = *a;
-    
-    while (arbre_cour) { // On parcourt les arbres niveau par niveau jusqu'à atteindre les feuilles
+            // On insère le noeud dans l'arbre
+            insererNoeudArbre(n, a, parent, &i);
 
-        if (arbre_cour==NULL) {
-            break;
+            // On insère le noeud dans le réseau
+            CellNoeud* cn = creeCellNoeud(n);
+            cn->suiv = R->noeuds;
+            R->noeuds = cn; 
+            printf("j'ai créé le noeud %f %f\n", x, y);
+            return n;
         }
 
-        if (arbre_cour->noeud==NULL){ // On est dans un noeud interne, on continue la recherche à un niveau inférieur
-            int pos = position(x, y, *a);
+    }
 
-            if (pos==1) {
-                arbre_cour = arbre_cour->so;
-            }
-            if (pos==2) {
-                arbre_cour = arbre_cour->ne;
-            }
-            if (pos==3) {
-                arbre_cour = arbre_cour->se;
-            }
-            else {
-                arbre_cour = arbre_cour->no;
-            }
+    else {
+        // ce else équivaut à (*a != NULL && ((*a)->noeud == NULL)   
+        // Si on n'est dans aucun des deux cas précédents, on est au niveau d'un noeud interne de l'arbre
+        // On doit donc regarder dans quel sous arbre on doit continuer à cherche pour trouver le noeud souhaité
 
+        // On détermine la position du point que l'on souhaite insérer par rapport à l'arbre dans lequel on se situe
+        int pos = position(x, y, *a);
+
+        if(pos==1) {
+            return rechercheCreeNoeudArbre(R, &((*a)->so), (*a), x, y);
+        }
+        else if(pos==2) {
+            return rechercheCreeNoeudArbre(R, &((*a)->ne), (*a), x, y);
+        }
+        else if(pos==4) {
+            return rechercheCreeNoeudArbre(R, &((*a)->se), (*a), x, y);
+        }
+        else {
+            return rechercheCreeNoeudArbre(R, &((*a)->no), (*a), x, y);
         }
 
-
-        else { //On se trouve au niveau d'une feuille, on regarde si le noeud cherché existe ou pas
-            if (arbre_cour->noeud->x == x  &&  arbre_cour->noeud->y == y) {
-                return arbre_cour->noeud;
-            }
-            else {
-                break;
-            }
-        } 
-
-    }  
-    
-    // Si on passe par la, cela signifie qu'on n'a pas trouvé le noeud, donc on le crée et l'ajoute au réseau et à l'arbre
-    Noeud* n = creeNoeud(R->nbNoeuds+1, x, y);
-
-    //Ajout du noeud à l'arbre
-        int truc = 0;
-        insererNoeudArbre(n, a, parent, &truc);
-
-    //Ajout du noeud au réseau
-    CellNoeud* cn = creeCellNoeud(n);
-    cn->suiv = R->noeuds;
-    R->noeuds = cn;
-
-    return n;
+    }
     
 }
 
