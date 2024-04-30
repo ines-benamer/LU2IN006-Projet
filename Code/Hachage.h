@@ -17,5 +17,6 @@ int hachage(double cle, int lenght);
 TableHachage* creeTableHachage(int taille);
 Noeud* rechercheCreeNoeudHachage(Reseau* R, TableHachage* H, double x, double y);
 Reseau* reconstitueReseauHachage(Chaines *C, int M);
+void liberer_table_hachage(TableHachage *table );
 
 #endif

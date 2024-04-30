@@ -105,7 +105,7 @@ void rendreVoisins(Noeud* n1, Noeud* n2) {
 //-----------------------------------------------------------------//
 
 
-void liberer_reseau(Reseau *reseau) {
+void libererReseau(Reseau *reseau) {
     if (!reseau) return;
     // Libération des commodités
     CellCommodite *commodite = reseau->commodites;
@@ -126,6 +126,43 @@ void liberer_reseau(Reseau *reseau) {
 
 }
 
+
+//-----------------------------------------------------------------//
+
+void libererCellNoeuds(CellNoeud *cells, int rm) {
+    CellNoeud *tmp = NULL;
+
+    // On parcours la liste
+    while (cells) {
+        // Si c'est une suppresion forte on supprime les noeud
+        if (rm)
+            libereNoeud(cells->nd);
+
+        // On suppime le cell noeud
+        tmp = cells->suiv;
+
+        free(cells);
+        cells = tmp;
+    }
+}
+
+//-----------------------------------------------------------------//
+
+void libereNoeud(Noeud *noeud){
+    if(!noeud) return;
+    libererCellNoeuds(noeud->voisins,0);
+    free(noeud);
+}
+//-----------------------------------------------------------------//
+
+void libererCommodites(CellCommodite *commodites){
+    CellCommodite *ptr = NULL;
+    while(commodites){
+        ptr = commodites->suiv;
+        free(commodites);
+        commodites = ptr;
+    }
+}
 
 //-----------------------------------------------------------------//
 
@@ -221,7 +258,7 @@ Reseau* reconstitueReseauListe(Chaines *C){
                 // Vérification de l'allocation de mémoire pour les cellules de nœud
                 if (!noeud_voisin || !noeud_courant) {
                     // Libération de la mémoire allouée pour le réseau en cas d'échec
-                    liberer_reseau(reseau);
+                    libererReseau(reseau);
                     // Libération de la mémoire allouée pour la cellule de nœud non utilisée
                     free(noeud_voisin);
                     return NULL;
@@ -244,7 +281,7 @@ Reseau* reconstitueReseauListe(Chaines *C){
         if (premier) {
             CellCommodite *cmd = creeCommodite(premier, second);
             if (!cmd) {
-                liberer_reseau(reseau);
+                libererReseau(reseau);
                 return NULL;
             }
             // Ajout de la commodité en tête de la liste des commodités du réseau

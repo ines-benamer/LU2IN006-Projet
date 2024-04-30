@@ -267,6 +267,7 @@ void insererNoeudArbre(Noeud* n, ArbreQuat** a, ArbreQuat* parent, int* i) {
     printf("%d fin d'insertion dans un noeud interne\n", *i);
     *i = *i - 1;
 }
+}
 
 
 //-----------------------------------------------------------------//
