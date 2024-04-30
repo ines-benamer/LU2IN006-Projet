@@ -7,30 +7,35 @@
 
 //c'est un brouillon pour tester les fonctions 
 int main() {
-    // Création d'un réseau fictif pour tester
-    int gamma = 2;
-    Reseau* reseau = creeReseau(gamma);
-    if (!reseau) {
-        printf("Erreur lors de la création du réseau.\n");
-        return 1;
-    }
+    // Création d'un réseau de test (à remplacer avec un vrai réseau)
+    Reseau* reseau = creeReseau(5); // Exemple de création de réseau, à remplacer avec l'appel réel
 
-    // Appel de la fonction pour créer le graphe à partir du réseau
+    // Création du graphe à partir du réseau
     Graphe* graphe = creerGraphe(reseau);
-    if (!graphe) {
-        printf("Erreur lors de la création du graphe.\n");
-        return 1;
+
+    // Affichage des informations sur le graphe
+    if (graphe != NULL) {
+        printf("Graphe cree avec succes :\n");
+        printf("Nombre de sommets : %d\n", graphe->nbsom);
+        printf("Gamma : %d\n", graphe->gamma);
+        printf("Nombre de commodites : %d\n", graphe->nbcommod);
+
+        // Affichage des sommets
+        printf("Sommets :\n");
+        for (int i = 0; i < graphe->nbsom; i++) {
+            Sommet* sommet = graphe->T_som[i];
+            printf("Sommet %d : x=%f, y=%f\n", sommet->num, sommet->x, sommet->y);
+        }
+
+        // Affichage des commodites
+        printf("Commodites :\n");
+        for (int i = 0; i < graphe->nbcommod; i++) {
+            Commod commodite = graphe->T_commod[i];
+            printf("Commodite %d : e1=%d, e2=%d\n", i+1, commodite.e1, commodite.e2);
+        }
+    } else {
+        printf("Erreur lors de la creation du graphe.\n");
     }
-
-    // Affichage de quelques informations du graphe pour vérification
-    printf("Nombre de sommets dans le graphe : %d\n", graphe->nbsom);
-    printf("Nombre de commodités dans le graphe : %d\n", graphe->nbcommod);
-    printf("Gamma du graphe : %d\n", graphe->gamma);
-
-    // Libération de la mémoire allouée pour le réseau et le graphe
-    // (Vous devez définir vos propres fonctions pour libérer la mémoire)
-    // libérer_reseau(reseau);
-    // liberer_graphe(graphe);
 
     return 0;
 }

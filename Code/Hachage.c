@@ -126,7 +126,7 @@ void liberer_table_hachage(TableHachage *table ){
         libererCellNoeuds(table->table[i],0);
     }
     free(table);
-    free(table);
+   
         
 
 }

@@ -12,8 +12,7 @@
 int main(int argc, char *argv[]) {
     // On test les arguments
     if (argc != 3) {
-        fprintf(stderr,
-                "Usage: %s <filename>"
+        printf("Usage: %s <filename>"
                 " <number : Le choix de la structure> \n\t- 1 pour les listes \n\t"
                 "- 2 pour la table de hachage \n\t- 3 pour les arbres\n",
                 argv[0]);
@@ -21,10 +20,8 @@ int main(int argc, char *argv[]) {
     }
 
     // On supprime le nom du fichier main des arguments
-    argc--;
-    argv++;
-
-    int number = atoi(argv[1]);
+   
+    int number = atoi(argv[2]);
 
     // On test le nombre si il est valide
     if (number < 0 || number > 3) {
@@ -70,7 +67,7 @@ int main(int argc, char *argv[]) {
     // Deuxieme partie : Avec la table de hachage
     if (number == 2) {
         // On crée la table de hachage
-        TableHachage *table = creeTableHachage(5000);
+        TableHachage *table = creeTableHachage(50);
         if (!table) {
             liberer_structure(chaines);
             fclose(file);
