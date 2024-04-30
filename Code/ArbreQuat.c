@@ -267,7 +267,7 @@ void insererNoeudArbre(Noeud* n, ArbreQuat** a, ArbreQuat* parent, int* i) {
     printf("%d fin d'insertion dans un noeud interne\n", *i);
     *i = *i - 1;
 }
-}
+
 
 
 //-----------------------------------------------------------------//
@@ -275,17 +275,17 @@ void insererNoeudArbre(Noeud* n, ArbreQuat** a, ArbreQuat* parent, int* i) {
 
 Noeud* rechercheCreeNoeudArbre(Reseau* R, ArbreQuat** a, ArbreQuat* parent, double x, double y) {
 
-    // if (!a) {
-    //     printf("Pointeur vers un arbre non valide\n");
-    // }
+    if (!a) {
+        printf("Pointeur vers un arbre non valide\n");
+    }
 
-    // if (*a==NULL) { // Dans les cas où on est dans un arbre vide, on crée le noeud et on le renvoie
-    //     Noeud* n = creeNoeud(R->nbNoeuds+1, x, y);
-    //     R->nbNoeuds++;
-    //     int i=0;
-    //     insererNoeudArbre(n, a, parent, &i);
+    if (*a==NULL) { // Dans les cas où on est dans un arbre vide, on crée le noeud et on le renvoie
+        Noeud* n = creeNoeud(R->nbNoeuds+1, x, y);
+        R->nbNoeuds++;
+        int i=0;
+        insererNoeudArbre(n, a, parent, &i);
 
-    // }
+    }
 
 
 
