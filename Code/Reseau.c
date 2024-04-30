@@ -309,37 +309,46 @@ void ecrireReseau(Reseau *R, FILE *f){
     fprintf(f, "Gamma: %d\n", R->gamma);
     fprintf(f, "\n");
 
+    // On parcourt les CellNoeud noeuds du réseau
     CellNoeud* cour = R->noeuds;
     while (cour) {
+        // Pour chaque CellNoeud on récupère le noeud correspondant et on écrit ses coordonnées dans le fichier
+        // Puis on passe au suivant 
         Noeud* nc = cour->nd;
         fprintf(f, "v %d %f %f\n", nc->num, nc->x, nc->y);
         cour = cour->suiv;
     }
     fprintf(f, "\n");
-
-    Noeud* parcourus[R->nbNoeuds];
+ 
+    Noeud* parcourus[R->nbNoeuds]; // Un tableau qui va contenir les noeud qu'on a déjà rencontrés
     int nb_parcourus = 0;
 
     cour = R->noeuds;
-    while (cour) {
+    while (cour) { // On parcourt les noeuds du réseau 
         CellNoeud* voisins = cour->nd->voisins;
-        while(voisins) {
+        while(voisins) { // On parcourt les voisins de chaque noeud
             int parcouru = 0;
-            for (int i=0; i<nb_parcourus; i++){
+            for (int i=0; i<nb_parcourus; i++){ // On détermine si le noeud a déjà été parcouru
                 if (parcourus[i]==voisins->nd) {
                     parcouru = 1;
                 }
             }
-            if (parcouru==0){
+            if (parcouru==0){ // Si le noeud n'a pas été parcouru, on l'écrit dans le fichier
                 fprintf(f, "l %d %d\n", cour->nd->num, voisins->nd->num);
             }
             voisins = voisins->suiv;
         }
+
         cour = cour->suiv;
-        parcourus[nb_parcourus] = cour->nd;
-        nb_parcourus++;
+            if (cour) { // On ajoute le noeud qu'on vient de parcourir dans la liste des noeuds parcourus
+            parcourus[nb_parcourus] = cour->nd;
+            nb_parcourus++;
+        }
+
     }
     fprintf(f, "\n");
+
+    
 
     CellCommodite* commodites = R->commodites;
     while (commodites) {

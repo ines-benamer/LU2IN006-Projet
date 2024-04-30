@@ -112,93 +112,8 @@ int position(double x, double y, ArbreQuat* parent){
 
 //-----------------------------------------------------------------//
 
-void insererNoeudArbre(Noeud *n, ArbreQuat **a, ArbreQuat *parent)
-{
-    if ((*a) == NULL)
-    {
-        double xc = parent->xc, yc = parent->yc;
-        double coteX = parent->coteX, coteY = parent->coteY;
-        
-        if (n->x < xc)
-        {
-            if (n->y < yc)
-            {
-                *a = creerArbreQuat(xc-coteX/4, yc-coteY/4, coteX/2, coteY/2);
-                parent->so = *a;
-            }
 
-            else
-            {
-                *a = creerArbreQuat(xc-coteX/4, yc+coteY/4, coteX/2, coteY/2);
-                parent->no=*a;
-            }
-        }
-        else
-        {
-            if (n->y < yc)
-            {
-                *a = creerArbreQuat(xc+coteX/4, yc-coteY/4, coteX/2, coteY/2);
-                parent->se=*a;
-            }
-            else
-            {
-                *a = creerArbreQuat(xc+coteX/4, yc+coteY/4, coteX/2, coteY/2);
-                parent->ne=*a;
-            }
-        }
-
-        (*a)->noeud = n;
-
-        return;
-    }
-
-    if ((*a)->noeud != NULL)
-    {
-        if ((*a)->noeud->x < (*a)->xc && (*a)->noeud->y < (*a)->yc)
-            insererNoeudArbre((*a)->noeud, &((*a)->so), *a);
-        if ((*a)->noeud->x >= (*a)->xc && (*a)->noeud->y < (*a)->yc)
-            insererNoeudArbre((*a)->noeud, &((*a)->se), *a);
-        if ((*a)->noeud->x < (*a)->xc && (*a)->noeud->y >= (*a)->yc)
-            insererNoeudArbre((*a)->noeud, &((*a)->no), *a);
-        if ((*a)->noeud->x >= (*a)->xc && (*a)->noeud->y >= (*a)->yc)
-            insererNoeudArbre((*a)->noeud, &((*a)->ne), *a);
-            
-        (*a)->noeud = NULL;
-
-        if (n->x < (*a)->xc && n->y < (*a)->yc)
-            insererNoeudArbre(n, &((*a)->so), *a);
-        if (n->x >= (*a)->xc && n->y < (*a)->yc)
-            insererNoeudArbre(n, &((*a)->se), *a);
-        if (n->x < (*a)->xc && n->y >= (*a)->yc)
-            insererNoeudArbre(n, &((*a)->no), *a);
-        if (n->x >= (*a)->xc && n->y >= (*a)->yc)
-            insererNoeudArbre(n, &((*a)->ne), *a);
-
-        return;
-    }
-
-    if ((*a)->noeud == NULL)
-    {
-        double xc = (*a)->xc;
-        double yc = (*a)->yc;
-
-        if (n->x < xc)
-        {
-            if (n->y < yc)
-                insererNoeudArbre(n, &((*a)->so), *a);
-            else
-                insererNoeudArbre(n, &((*a)->no), *a);
-        }
-        else
-        {
-            if (n->y < yc)
-                insererNoeudArbre(n, &((*a)->se), *a);
-            else
-                insererNoeudArbre(n, &((*a)->ne), *a);
-        }
-    }
-}
-/*void insererNoeudArbre(Noeud* n, ArbreQuat** a, ArbreQuat* parent, int* i) {
+void insererNoeudArbre(Noeud* n, ArbreQuat** a, ArbreQuat* parent, int* i) {
     *i = *i+1;
     printf("%d je commence a inserer un noeud\n", *i);
 
@@ -210,8 +125,11 @@ void insererNoeudArbre(Noeud *n, ArbreQuat **a, ArbreQuat *parent)
     if (*a==NULL){ // Si on fait une insertion dans un arbre vide, on crée l'arbre et on ajoute le noeud dedans
         printf("%d insertion dans un arbre nul\n", *i);
 
+        double coteX = ((double)parent->coteX)/2.0;
+        double coteY = ((double)parent->coteY)/2.0;
+
         double xc, yc;
-        int pos = position(n->x, n->y, parent);
+        int pos = position(n->x, n->y, parent); // On détermine les coordonnées du centre du sous-cadre que l'on veut créer
         if (pos==1) { // au sud-ouest
             xc = (parent->xc) - ((double)parent->coteX)/4.0;
             yc = (parent->yc) - ((double)parent->coteY)/4.0;
@@ -233,11 +151,13 @@ void insererNoeudArbre(Noeud *n, ArbreQuat **a, ArbreQuat *parent)
         }
         
 
-        double coteX = ((double)parent->coteX)/2.0;
-        double coteY = ((double)parent->coteY)/2.0;
-
         *a = creerArbreQuat(xc, yc, coteX, coteY);
+        if (!(*a)) {
+            printf("Erreur de création de l'arbre\n");
+            return;
+        }
         (*a)->noeud = n;
+
         printf("%d fin d'insertion dans un arbre vide\n", *i);
         *i = *i-1;
         return;
@@ -255,7 +175,7 @@ void insererNoeudArbre(Noeud *n, ArbreQuat **a, ArbreQuat *parent)
             
             // On ajoute le noeud déjà présent dans un sous-arbre de l'arbre actuel
             int pos = position(n2->x, n2->y, *a);
-            printf("%d début d'insertion du noeud déjà existant\n", *i);
+            printf("%d début d'insertion du noeud déjà existant: x=%f, y=%f\n", *i, n->x, n->y);
 
             if (pos==1) { // au sud-ouest
                 insererNoeudArbre(n2, &((*a)->so), *a, i);
@@ -276,13 +196,13 @@ void insererNoeudArbre(Noeud *n, ArbreQuat **a, ArbreQuat *parent)
                     }
                 }
             }
-            printf("%d fin d'insertion du noeud existant\n", *i);
+            printf("%d fin d'insertion du noeud déjà existant: x=%f, y=%f\n", *i, n->x, n->y);
 
 
             // On ajoute le noeud que l'on voulait ajouter dans un sous-arbre de l'arbre actuel
             pos = position(n->x, n->y, (*a));
 
-            printf("%d début d'insertion du nouveau noeud\n", *i);
+            printf("%d début d'insertion du nouveau noeud : x=%f, y=%f\n", *i, n->x, n->y);
             if (pos==1) { // au sud-ouest
                 printf("%d so\n", *i);
                 insererNoeudArbre(n, &((*a)->so), (*a), i);
@@ -306,8 +226,7 @@ void insererNoeudArbre(Noeud *n, ArbreQuat **a, ArbreQuat *parent)
                     }
                 }
             }
-            printf("%d fin d'insertion du nouveau noeud\n", *i);
-
+            printf("%d fin d'insertion du nouveau noeud : x=%f, y=%f\n", *i, n->x, n->y);
             printf("%d fin d'insertion dans une feuille\n", *i);
 
             (*a)->noeud = NULL;
@@ -347,13 +266,28 @@ void insererNoeudArbre(Noeud *n, ArbreQuat **a, ArbreQuat *parent)
     
     printf("%d fin d'insertion dans un noeud interne\n", *i);
     *i = *i - 1;
-}*/
+}
 
 
 //-----------------------------------------------------------------//
 
 
 Noeud* rechercheCreeNoeudArbre(Reseau* R, ArbreQuat** a, ArbreQuat* parent, double x, double y) {
+
+    // if (!a) {
+    //     printf("Pointeur vers un arbre non valide\n");
+    // }
+
+    // if (*a==NULL) { // Dans les cas où on est dans un arbre vide, on crée le noeud et on le renvoie
+    //     Noeud* n = creeNoeud(R->nbNoeuds+1, x, y);
+    //     R->nbNoeuds++;
+    //     int i=0;
+    //     insererNoeudArbre(n, a, parent, &i);
+
+    // }
+
+
+
     ArbreQuat* arbre_cour = *a;
     
     while (arbre_cour) { // On parcourt les arbres niveau par niveau jusqu'à atteindre les feuilles
@@ -395,15 +329,15 @@ Noeud* rechercheCreeNoeudArbre(Reseau* R, ArbreQuat** a, ArbreQuat* parent, doub
     // Si on passe par la, cela signifie qu'on n'a pas trouvé le noeud, donc on le crée et l'ajoute au réseau et à l'arbre
     Noeud* n = creeNoeud(R->nbNoeuds+1, x, y);
 
+    //Ajout du noeud à l'arbre
+        int truc = 0;
+        insererNoeudArbre(n, a, parent, &truc);
+
     //Ajout du noeud au réseau
     CellNoeud* cn = creeCellNoeud(n);
     cn->suiv = R->noeuds;
     R->noeuds = cn;
 
-    //Ajout du noeud à l'arbre
-    //int truc = 0;
-    insererNoeudArbre(n, &(*a), parent);
-    
     return n;
     
 }
@@ -413,16 +347,30 @@ Noeud* rechercheCreeNoeudArbre(Reseau* R, ArbreQuat** a, ArbreQuat* parent, doub
 
 
 Reseau* ReconstitueReseauArbre(Chaines* C) {
+
+    if (!C) {
+        printf("Pointeur Chaines* invalide\n");
+        return NULL;
+    }
+
     Reseau* reseau = creeReseau(C->gamma);
+    if (!reseau) {
+        printf("Erreur de création du réseau\n");
+        return NULL;
+    }
 
     double xmin, ymin, xmax, ymax;
     chaineCoordMinMax(C, &xmin, &ymin, &xmax, &ymax);
-    double xc = ((double)(xmax - xmin))/2.0;
-    double yc = ((double)(ymax - ymin))/2.0;
+    double xc = ((double)(xmax + xmin))/2.0;
+    double yc = ((double)(ymax + ymin))/2.0;
     double coteX = (double) (xmax - xmin);
     double coteY = (double) (ymax - ymin);
 
     ArbreQuat* arbre = creerArbreQuat(xc, yc, coteX, coteY);
+    if (!arbre) {
+        printf("Erreur de création de l'arbre\n");
+        return NULL;
+    }
 
     Noeud* extrA;
     Noeud* extrB;

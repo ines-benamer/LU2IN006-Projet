@@ -12,20 +12,31 @@
 void ecrire_temps_fichier(FILE* f, int nb_chaines, int nb_points_chaines, int xmax, int ymax) {
     Chaines* C = generationAleatoire(nb_chaines, nb_points_chaines, xmax, ymax);
     clock_t temps;
+    Reseau* R;
 
     fprintf(f, "Nombre de chaînes : %d\n", nb_chaines);
     fprintf(f, "Nombre total de points : %d\n\n", comptePointsTotal(C));
 
 
     temps = clock();
-    reconstitueReseauListe(C);
+    R = reconstitueReseauListe(C);
     temps = clock() - temps;
     fprintf(f, "Temps mis pour reconstituer le réseau avec la liste chaînée : %lf secondes\n\n", (double)temps/CLOCKS_PER_SEC);
+    
+    
+
 
     temps = clock();
-    ReconstitueReseauArbre(C);
+    R = ReconstitueReseauArbre(C);
     temps = clock() - temps;
     fprintf(f, "Temps mis pour reconstituer le réseau avec l'arbre : %lf secondes\n\n", (double)temps/CLOCKS_PER_SEC);
+
+    FILE* ecrire = fopen("mon_test_ecriture", "w");
+    if (!ecrire) {
+        printf("Erreur d'ouverture du fichier d'écriture\n");
+    }
+    ecrireReseau(R, ecrire);
+    
 
     for(int m=1; m<100*nb_points_chaines; m+=15) {
         temps = clock();
