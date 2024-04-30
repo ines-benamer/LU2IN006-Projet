@@ -2,6 +2,7 @@
 #include <stdio.h>
 #include "Reseau.h"
 #include "Graphe.h"
+#include "Struct_File.h"
 
 // question 7.1 : 
 
@@ -78,6 +79,7 @@ void liberer_arete(Cellule_arete *arete) {
     }
     free(arete);
 }
+
 
 //------------------------------------------CREE_GRAPHE-----------------------------------
 
@@ -166,3 +168,86 @@ Graphe* creerGraphe(Reseau* r){
     return graphe;
 
 }
+
+//-----------------------------------------------------------------//
+
+int plus_petit_nb_aretes(Graphe *graphe, int u, int v) {
+    // On soustrait -1 des numero de sommets (indice du tableau commence par 0)
+    u--;
+    v--;
+
+    // Si le graphe est null on retourne directement (On sort de la fonction)
+    if (!graphe) {
+        return -1;
+    }
+
+    // Si les numero de sommet depasse le numero max on sort de la fonction
+    if (u < 0 || u >= graphe->nbsom || v < 0 || v >= graphe->nbsom) {
+        return -1;
+    }
+
+    // On cree un tableau de boolean,(Si la case est 0 donc le sommet n'est pas encore visté)
+    int *visit = (int *)malloc(sizeof(int) * graphe->nbsom);
+
+    // On teste si l'allocation du tableau s'est bien passé
+    if (!visit) {
+        return -1;
+    }
+
+    // On cree un tableau pour garder les distances minimales entre les deux sommets
+    int *D = (int *)malloc(sizeof(int) * graphe->nbsom);
+    // On teste si l'allocation  du tableau s'est bien passé
+    if (!D) {
+        free(visit);
+        return -1;
+    }
+
+    for (int i = 0; i < graphe->nbsom; i++)
+        visit[i] = 0;
+
+    visit[u] = 1;
+    D[u] = 0;
+
+    // On cree une file
+    S_file *file = cree_file();
+
+    // On teste si la file est bien allouer
+    if (!file) {
+        free(visit);
+        free(D);
+        return -1;
+    }
+
+    // On enfile le premier sommet pour le parcourir
+    enfile(file, u);
+
+    // Tant qu'il existe encore des sommets qu'on doit parcourir
+    while (!estFileVide(file)) {
+        // On defile le sommet a parcourir
+        int curr = defile(file);
+
+        // On boucle sur sa liste d'adjacents
+        for (Cellule_arete *voisins = graphe->T_som[curr]->L_voisin; voisins; voisins = voisins->suiv) {
+            // On recupere le numero du sommet adjacent
+            int pos = voisins->a->u == curr ? voisins->a->v : voisins->a->u;
+
+            // Si il n'st pas encore visiter
+            if (visit[pos] == 0) {
+                // On met le boolean a 1 pour ne pas l'ajouter une deuxieme fois
+                visit[pos] = 1;
+                enfile(file, pos);
+                // On calcule la distance entre le sommet et le premier sommet
+                D[pos] = D[curr] + 1;
+            }
+        }
+    }
+
+    // On recupere la distance du dernier sommet et on libere les tableau et la file
+    int result = D[v];
+    free(visit);
+    free(D);
+    liberer_file(file);
+    return result;
+}
+
+//------------------------------------------------------------------------------------------------------------------//

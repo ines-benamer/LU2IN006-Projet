@@ -401,7 +401,7 @@ Noeud* rechercheCreeNoeudArbre(Reseau* R, ArbreQuat** a, ArbreQuat* parent, doub
     R->noeuds = cn;
 
     //Ajout du noeud à l'arbre
-    int truc = 0;
+    //int truc = 0;
     insererNoeudArbre(n, &(*a), parent);
     
     return n;

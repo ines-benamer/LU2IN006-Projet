@@ -2,7 +2,10 @@
 #define __GRAPHE_H__
 #include <stdlib.h>
 #include <stdio.h>
+
 #include "Reseau.h"
+#include "SVGwriter.h"
+#include "Chaine.h"
 
 typedef struct{
     int u,v; /* Numeros des sommets extremite */
@@ -40,4 +43,5 @@ void liberer_graphe(Graphe *graphe);
 void liberer_sommet(Sommet *sommet);
 void liberer_arete(Cellule_arete *arete);
 Graphe* creerGraphe(Reseau* r);
+int plus_petit_nb_aretes(Graphe *graphe, int u, int v);
 #endif

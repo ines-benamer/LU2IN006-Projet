@@ -39,7 +39,8 @@ int main() {
     temps = clock();
     reconstitueReseauListe(C);
     temps = clock() - temps;
-    fprintf(compare_temps, "Temps mis pour reconstituer le réseau avec la liste : %lf\n", (double)temps/CLOCKS_PER_SEC);
+    double tempsListe= (double)temps/CLOCKS_PER_SEC;
+    fprintf(compare_temps, "Temps mis pour reconstituer le réseau avec la liste : %lf\n", tempsListe);
 
     temps = clock();
     ReconstitueReseauArbre(C);
