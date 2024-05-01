@@ -17,12 +17,20 @@ typedef struct arbreQuat{
 } ArbreQuat;
 
 
-void chaineCoordMinMax(Chaines* C, double* xmin, double* ymin, double* xmax, double* ymax);
+void chaineCoordMinMax(Chaines* C, double* xmin, double* ymin, double* xmax, double* ymax); 
+
 ArbreQuat* creerArbreQuat(double xc, double yc, double coteX, double coteY);
+
+// Cette fonction va nous permettre de déterminer la position d'un point par rapport au centre d'un arbre
+// 1 : so, 2 : ne, 3 : se, 4 : no
 int position(double x, double y, ArbreQuat* parent);
+
 void insererNoeudArbre(Noeud *n, ArbreQuat **a, ArbreQuat *parent, int* i);
+
 Noeud* rechercheCreeNoeudArbre(Reseau* R, ArbreQuat** a, ArbreQuat* parent, double x, double y);
+
 Reseau* ReconstitueReseauArbre(Chaines* C);
+
 void libereArbreQuat(ArbreQuat * a);
 
 #endif

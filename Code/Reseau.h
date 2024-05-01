@@ -35,7 +35,6 @@ Noeud* creeNoeud(int num, int x, int y);
 CellCommodite* creeCommodite(Noeud* a, Noeud* b);
 Reseau* creeReseau(int gamma);
 CellNoeud *creeCellNoeud(Noeud *noeud);
-CellNoeud* dupliqueCellNoeud(CellNoeud* cn);
 void rendreVoisins(Noeud* n1, Noeud* n2);
 void ajouterNoeud(Reseau* R, Noeud* n);
 void ajouteVoisins(Noeud* n1, Noeud* n2);

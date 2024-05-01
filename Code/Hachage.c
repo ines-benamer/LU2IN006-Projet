@@ -12,9 +12,6 @@
 double cle(double x,double y){
     return y + (x + y) * (x + y + 1) / 2;
 }
-//pour répondre a cette question (Est-ce que la fonction clef vous semble appropriee ?) il faut d'abord vérifier  la fonction de hachage et les collisions
-// En testant cette fonction avec différentes valeurs de x et y
-// On constate que les valeurs retournées par la fonction clé semblent assez bien réparties de 0 à 100
 
 //---------------------------------------------
 //question 4.3 :
