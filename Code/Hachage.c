@@ -123,6 +123,10 @@ void liberer_table_hachage(TableHachage *table ){
         libererCellNoeuds(table->table[i],0);
     }
     free(table);
+<<<<<<< HEAD
+   
+=======
+>>>>>>> 491fdb7da6d5e5d2b584f6850ac2ffb158ff81c9
         
 
 }

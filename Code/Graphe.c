@@ -84,97 +84,75 @@ void liberer_arete(Cellule_arete *arete) {
 //------------------------------------------CREE_GRAPHE-----------------------------------
 
 Graphe* creerGraphe(Reseau* r){
-    if(!r){
-        return NULL;
-    }
-    Graphe *graphe = (Graphe*)malloc(sizeof(Graphe));
-    if(!graphe){
+    if(r == NULL){
+        printf("Impossible de creer Graphe a partir d'un reseau qui n'existe pas\n");
         return NULL;
     }
 
-    graphe->gamma = r->gamma;
-    graphe->nbsom = r->nbNoeuds;
-    graphe->nbcommod = nbCommodites(r);
-
-    // on alloue de la memoire necessaire pour le tableau des commodites.
-    graphe->T_commod = (Commod*)malloc(sizeof(Commod)* graphe -> nbcommod);
-    if (! graphe->T_commod){
-        free(graphe);
+    Graphe *g = (Graphe*)malloc(sizeof(Graphe));
+    if(g==NULL){
+        printf("Erreur malloc création Graphe\n");
         return NULL;
     }
 
-    // on alloue la memoire necessaire pour le tableau des sommets 
-    graphe->T_som = (Sommet **)malloc(sizeof(Sommet *)*graphe->nbsom);
-    if (! graphe->T_som){
-        free(graphe->T_commod);
-        free(graphe);
+    /*Initialisation des variables de g*/
+    g->nbsom = r->nbNoeuds;
+    g->gamma = r->gamma;
+    g->nbcommod = nbCommodites(r);
+
+    g->T_som = (Sommet**)malloc(sizeof(Sommet*) * g->nbsom);
+    if(g->T_som == NULL){
+        printf("Erreur malloc T_som création Graphe\n");
+        free(g);
+        return NULL;
+    }
+    for(int i=0; i < g->nbsom; i++){
+        g->T_som[i] = NULL;
+    }
+
+    g->T_commod = (Commod*)malloc(sizeof(Commod) * g->nbcommod);
+    if(g->T_commod == NULL){
+        printf("Erreur malloc T_commod création Graphe\n");
+        free(g->T_som);
+        free(g);
         return NULL;
     }
 
-    //initialisation des cases du tableau des sommets a NULL
-    for(int i = 0; i<graphe->nbsom;i++){
-        graphe->T_som[i] = NULL;
-    }
-    // initialisation des structures du tableau commodites suivant les commodites du reseau
-    int i = 0;
-    for(CellCommodite * comod = r->commodites;comod;comod = comod->suiv,i++){
-        graphe->T_commod[i].e1 = comod->extrA->num -1;
-        graphe->T_commod[i].e2 = comod->extrB->num -1;
+    /*Boucle qui parcours tous les noeuds du Reseau*/
+    CellNoeud *cr = r->noeuds;
+    int num;
+    for(int i=0; i < g->nbsom; i++){
+        /*Creation du sommet correspondant au noeud*/
+        /*Le numero du noeud (-1 car ils commencent a 1) correspond au numero du sommet, et donc de sa position dans le tableau*/
+        num = (cr->nd->num) - 1;
+        g->T_som[num] = creerSommet(num, cr->nd->x, cr->nd->y);
+        
+        /*Mise a jour aretes*/
+        majAretes(g, g->T_som[num], cr->nd);
 
-    }
-
-    // boucle pour creer les sommets du graphe a partir des noeuds du reseau 
-    for(CellNoeud *noeud = r->noeuds;noeud;noeud = noeud->suiv){
-        graphe->T_som[noeud->nd->num -1] = cree_sommet(noeud->nd->num -1,noeud->nd->x,noeud->nd->y);
-        if(graphe->T_som[noeud->nd->num -1]){
-            liberer_graphe(graphe);
-            return NULL;
-        }
-    //bouvle pour creer les aretes des voisins des noeuds 
-        for(CellNoeud *voisin = noeud->nd->voisins;voisin;voisin = voisin->suiv){
-        Arete *arete = NULL ;
-        Sommet *v = graphe->T_som[voisin->nd->num -1]; //on teste si le sommet voisin existe 
-            if(v){ // si il existe l'arete entre les deux existe forcement 
-                for(Cellule_arete *cellule = v->L_voisin;cellule;cellule=cellule->suiv){
-                    if(cellule->a->u == noeud->nd->num -1 || cellule->a->v == noeud->nd->num -1){
-                        arete = cellule->a;
-                        break;
-                    }
-                }
-            }
-            else{
-                //si le sommet n'existe pas donc l'arete aussi, donc on creer l'arete
-                arete = cree_arete(noeud->nd->num -1,voisin->nd->num -1);
-            }
-            if(!arete){
-                liberer_graphe(graphe);
-                return NULL;
-            }
-
-            Cellule_arete *cell = cree_cellule_arete(arete);
-                if(!cell){
-                liberer_graphe(graphe);
-                return NULL;
-            }
-
-            cell->suiv = graphe->T_som[noeud->nd->num - 1]->L_voisin;
-            graphe->T_som[noeud->nd->num -1]->L_voisin = cell;
-
-
-        }
-
+        cr = cr->suiv;
     }
 
-    return graphe;
+    /*Boucle passant par toutes les commodites du Reseau*/
+    CellCommodite *Cr = r->commodites;
+    for(int i=0; i<(g->nbcommod); i++){
+        Commod C;
+        C.e1 = (Cr->extrA->num)-1;
+        C.e2 = (Cr->extrB->num)-1;
 
+        g->T_commod[i] = C;
+        Cr = Cr->suiv;
+    }
+
+    return g;
 }
 
-//-----------------------------------------------------------------//
+
+//------------------------------PLUS_PETIT_NB_ARETES---------------------------------------
 
 int plus_petit_nb_aretes(Graphe *graphe, int u, int v) {
     // On soustrait -1 des numero de sommets (indice du tableau commence par 0)
-    u--;
-    v--;
+
 
     // Si le graphe est null on retourne directement (On sort de la fonction)
     if (!graphe) {
@@ -250,4 +228,203 @@ int plus_petit_nb_aretes(Graphe *graphe, int u, int v) {
     return result;
 }
 
-//------------------------------------------------------------------------------------------------------------------//
+//-------------------------------------------------------------------------------------------------------------
+
+/* Retourne un liste de numeros de sommets de la plus courte chaine entre deux sommets */
+void generate_plus_petit_chaine(Graphe *graphe, int u, int v, ListeEntier *liste) {
+    init_liste(liste);
+
+    // On soustrait -1 des numero de sommets (indice du tableau commence par 0)
+    u--;
+    v--;
+    if (!graphe) {
+        return;
+    }
+
+    // Si les numero de sommet depasse le numero max on sort de la fonction
+    if (u < 0 || u >= graphe->nbsom || v < 0 || v >= graphe->nbsom) {
+        return;
+    }
+
+    // On cree un tableau de boolean,(Si la case est 0 donc le sommet n'est pas encore visté)
+    int *visit = (int *)malloc(sizeof(int) * graphe->nbsom);
+
+    if (!visit) {
+        return;
+    }
+    // On cree un tableau de predecesseur
+    //( si la case dont l'indice est le numero du sommet est a -1 donc elle n'a pas de predecesseur, sinon son predecesseur a pour numero de sommet la valeur de la case)
+    // on l'utilise pour tracer un chemin entre deux sommets
+    int *pred = (int *)malloc(sizeof(int) * graphe->nbsom);
+
+    if (!pred) {
+        free(visit);
+        return;
+    }
+    for (int i = 0; i < graphe->nbsom; i++) {
+        visit[i] = 0;
+        pred[i] = -1;
+    }
+
+    visit[u] = 1;
+
+    // On cree une file
+    // Elle sert a stoquer les somets qui ne sont pas encore visité et qui doivent etre visité
+    // A chaque fois on defile un sommets pour le parcourir et o enfile les sommets adjacents
+    S_file *file = cree_file();
+
+    // On teste si la file est bien allouer
+    if (!file) {
+        print_probleme("Erreur de creation");
+        free(visit);
+        free(pred);
+        return;
+    }
+
+    // On enfile le premier sommet pour le parcourir
+    enfile(file, u);
+
+    // Tant qu'il existe encore des sommets qu'on doit parcourir
+    while (!est_file_vide(file)) {
+        // On defile le sommet a parcourir
+        int curr = defile(file);
+
+        // On boucle sur sa liste d'adjacents
+        for (Cellule_arete *voisins = graphe->T_som[curr]->L_voisin; voisins; voisins = voisins->suiv) {
+            // On recupere le numero du sommet adjacent
+            int pos = voisins->a->u == curr ? voisins->a->v : voisins->a->u;
+
+            // Si il n'st pas encore visiter
+            if (visit[pos] == 0) {
+                // On met le boolean a 1 pour ne pas l'ajouter une deuxieme fois
+                visit[pos] = 1;
+                enfile(file, pos);
+                // On garde le precedent
+                pred[pos] = curr;
+            }
+        }
+    }
+
+    int i = v;
+    // On fait le parcours inverse pour recuperer le chemin
+    while (pred[i] != -1) {
+        ajoute_en_tete(liste, i + 1);
+        i = pred[i];
+    }
+
+    ajoute_en_tete(liste, u + 1);
+
+    free(visit);
+    free(pred);
+    liberer_file(file);
+}
+
+//------------------------------------------------------------------------------------------------------------------
+
+/*Mise a jour des aretes d'un sommet*/
+void MiseAjourAretes(Graphe *g, Sommet *s, Noeud *n){
+    /*Boucle passant par tous les voisins du noeud*/
+    CellNoeud *nvois = n->voisins;
+    while(nvois){
+        /*On cherche le sommet correspondant au noeud voisin*/
+        Sommet *svois = g->T_som[((nvois->nd->num)-1)];
+
+            /*Si le sommet correspondant au voisin a ete créé, on ajoute l'arete
+            Sinon, ce sommet sera créé plus tard*/
+            if(svois){
+                /*On sait que l'arete n'existe pas car le nouveau sommet viens d'etre créé
+                Nous créons donc l'arete et nous l'ajoutons en tete de liste (des deux sommets!)*/
+                Arete *a = creerArete(s->num, svois->num);
+                Cellule_arete *c = creerCellule_arete(a);
+                Cellule_arete *cvois = cree_cellule_arete(a);
+
+                c->suiv = s->L_voisin;
+                s->L_voisin = c;
+
+                cvois->suiv = svois->L_voisin;
+                svois->L_voisin = cvois;
+            }
+
+        nvois = nvois->suiv;
+    }
+}
+
+//------------------------------------------------------------------------------------------------------------------
+
+
+int reorganise_reseau(Reseau *reseau) {
+    // Si le reseau est null on sort de la fonction
+    if (!reseau) {
+        return 0;
+    }
+
+    // On cree un graphe et on teste l'allocation
+    Graphe *graphe = creer_graphe(reseau);
+    if (!graphe) {
+        return 0;
+    }
+
+    // On cree une matrice (sommet-sommet) et on teste l'allocation
+    int **mat_chaines = (int **)malloc(sizeof(int *) * graphe->nb_som);
+    if (!mat_chaines) {
+        liberer_graphe(graphe);
+        return 0;
+    }
+
+    for (int i = 0; i < graphe->nb_som; i++) {
+        mat_chaines[i] = (int *)malloc(sizeof(int) * graphe->nb_som);
+
+        if (!mat_chaines[i]) {
+
+            for (int j = 0; j < i; j++)
+                free(mat_chaines[j]);
+
+            free(mat_chaines);
+            liberer_graphe(graphe);
+            return 0;
+        }
+
+        // On initialise les case de la matrice a 0
+        for (int j = 0; j < graphe->nb_som; j++)
+            mat_chaines[i][j] = 0;
+    }
+
+    ListeEntier liste;
+    for (int i = 0; i < graphe->nb_commod; i++) {
+        // On recupere pour chaque commodites le plus court chemin
+        generate_plus_petit_chaine(graphe, graphe->T_commod[i].e1 + 1, graphe->T_commod[i].e2 + 1, &liste);
+
+        Cell_entier *pred = NULL;
+
+        // On incremente la case de chaque arete dans la matrice lorsqu'on la trouve dans le chemin de l'arete
+        for (Cell_entier *curr = liste; curr; pred = curr, curr = curr->suiv) {
+            if (pred) {
+                mat_chaines[curr->u - 1][pred->u - 1]++;
+                mat_chaines[pred->u - 1][curr->u - 1]++;
+
+                // Si le nombre d'apparaissance est superieur a gamma on retourne faux (0) et on libere tout les tableu et la matrice
+                if (mat_chaines[curr->u - 1][pred->u - 1] > graphe->gamma) {
+                    for (int i = 0; i < graphe->nb_som; i++)
+                        free(mat_chaines[i]);
+
+                    free(mat_chaines);
+                    liberer_graphe(graphe);
+                    desalloue(&liste);
+
+                    return 0;
+                }
+            }
+        }
+
+        desalloue(&liste);
+    }
+
+    // Sinon on retourne 1 si tout les apparaissance des arete est inferieur a gamma
+    for (int i = 0; i < graphe->nb_som; i++)
+        free(mat_chaines[i]);
+
+    free(mat_chaines);
+
+    liberer_graphe(graphe);
+    return 1;
+}
