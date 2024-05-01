@@ -1,7 +1,0 @@
-NbNoeuds: 0
-NbLiaisons: 0
-NbCommodités: 0
-Gamma: 0
-
-
-
