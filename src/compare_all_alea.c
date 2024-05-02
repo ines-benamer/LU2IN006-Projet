@@ -45,6 +45,10 @@ void ecrire_temps_fichier(FILE* f, int nb_chaines, int nb_points_chaines, int xm
         fprintf(f, "Temps mis pour reconstituer le réseau avec une table de hachage de taille %d : %lf secondes\n", m, (double)temps/CLOCKS_PER_SEC);
         libererReseau(R);
     }
+
+    liberer_structure(C);
+
+
 }
 
 int main(){

@@ -115,6 +115,8 @@ Reseau* reconstitueReseauHachage(Chaines* C, int M){
 
     }
 
+    liberer_table_hachage(table);
+
     return reseau;
 
 }
