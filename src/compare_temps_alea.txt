@@ -1,0 +1,167 @@
+COMPARAISON DES TEMPS DE RECONSTITUTION DE RESEAU - 100 points par chaîne
+
+
+500 CHAINES
+
+Nombre de chaînes : 500
+Nombre total de points : 50000
+
+Temps mis pour reconstituer le réseau avec la liste chaînée : 3.732992 secondes
+
+Temps mis pour reconstituer le réseau avec une table de hachage de taille 500 : 0.027937 secondes
+Temps mis pour reconstituer le réseau avec une table de hachage de taille 3000 : 0.011530 secondes
+Temps mis pour reconstituer le réseau avec une table de hachage de taille 5500 : 0.009648 secondes
+Temps mis pour reconstituer le réseau avec une table de hachage de taille 8000 : 0.009008 secondes
+Temps mis pour reconstituer le réseau avec une table de hachage de taille 10500 : 0.008565 secondes
+Temps mis pour reconstituer le réseau avec une table de hachage de taille 13000 : 0.008336 secondes
+Temps mis pour reconstituer le réseau avec une table de hachage de taille 15500 : 0.008075 secondes
+Temps mis pour reconstituer le réseau avec une table de hachage de taille 18000 : 0.007914 secondes
+Temps mis pour reconstituer le réseau avec une table de hachage de taille 20500 : 0.007990 secondes
+Temps mis pour reconstituer le réseau avec une table de hachage de taille 23000 : 0.007882 secondes
+Temps mis pour reconstituer le réseau avec une table de hachage de taille 25500 : 0.007704 secondes
+Temps mis pour reconstituer le réseau avec une table de hachage de taille 28000 : 0.008989 secondes
+Temps mis pour reconstituer le réseau avec une table de hachage de taille 30500 : 0.007918 secondes
+Temps mis pour reconstituer le réseau avec une table de hachage de taille 33000 : 0.007647 secondes
+Temps mis pour reconstituer le réseau avec une table de hachage de taille 35500 : 0.007724 secondes
+Temps mis pour reconstituer le réseau avec une table de hachage de taille 38000 : 0.007730 secondes
+Temps mis pour reconstituer le réseau avec une table de hachage de taille 40500 : 0.007432 secondes
+Temps mis pour reconstituer le réseau avec une table de hachage de taille 43000 : 0.007396 secondes
+Temps mis pour reconstituer le réseau avec une table de hachage de taille 45500 : 0.007499 secondes
+Temps mis pour reconstituer le réseau avec une table de hachage de taille 48000 : 0.007372 secondes
+
+
+1000 CHAINES
+
+Nombre de chaînes : 1000
+Nombre total de points : 100000
+
+Temps mis pour reconstituer le réseau avec la liste chaînée : 44.235234 secondes
+
+Temps mis pour reconstituer le réseau avec une table de hachage de taille 500 : 0.149949 secondes
+Temps mis pour reconstituer le réseau avec une table de hachage de taille 5500 : 0.038743 secondes
+Temps mis pour reconstituer le réseau avec une table de hachage de taille 10500 : 0.030576 secondes
+Temps mis pour reconstituer le réseau avec une table de hachage de taille 15500 : 0.025351 secondes
+Temps mis pour reconstituer le réseau avec une table de hachage de taille 20500 : 0.023880 secondes
+Temps mis pour reconstituer le réseau avec une table de hachage de taille 25500 : 0.025390 secondes
+Temps mis pour reconstituer le réseau avec une table de hachage de taille 30500 : 0.022474 secondes
+Temps mis pour reconstituer le réseau avec une table de hachage de taille 35500 : 0.023156 secondes
+Temps mis pour reconstituer le réseau avec une table de hachage de taille 40500 : 0.022787 secondes
+Temps mis pour reconstituer le réseau avec une table de hachage de taille 45500 : 0.020875 secondes
+Temps mis pour reconstituer le réseau avec une table de hachage de taille 50500 : 0.019142 secondes
+Temps mis pour reconstituer le réseau avec une table de hachage de taille 55500 : 0.021767 secondes
+Temps mis pour reconstituer le réseau avec une table de hachage de taille 60500 : 0.018271 secondes
+Temps mis pour reconstituer le réseau avec une table de hachage de taille 65500 : 0.020218 secondes
+Temps mis pour reconstituer le réseau avec une table de hachage de taille 70500 : 0.019647 secondes
+Temps mis pour reconstituer le réseau avec une table de hachage de taille 75500 : 0.020544 secondes
+Temps mis pour reconstituer le réseau avec une table de hachage de taille 80500 : 0.019696 secondes
+Temps mis pour reconstituer le réseau avec une table de hachage de taille 85500 : 0.018069 secondes
+Temps mis pour reconstituer le réseau avec une table de hachage de taille 90500 : 0.021270 secondes
+Temps mis pour reconstituer le réseau avec une table de hachage de taille 95500 : 0.018854 secondes
+
+
+1500 CHAINES
+
+Nombre de chaînes : 1500
+Nombre total de points : 150000
+
+Temps mis pour reconstituer le réseau avec la liste chaînée : 225.919005 secondes
+
+Temps mis pour reconstituer le réseau avec une table de hachage de taille 500 : 0.295935 secondes
+Temps mis pour reconstituer le réseau avec une table de hachage de taille 8000 : 0.065714 secondes
+Temps mis pour reconstituer le réseau avec une table de hachage de taille 15500 : 0.046673 secondes
+Temps mis pour reconstituer le réseau avec une table de hachage de taille 23000 : 0.039974 secondes
+Temps mis pour reconstituer le réseau avec une table de hachage de taille 30500 : 0.038198 secondes
+Temps mis pour reconstituer le réseau avec une table de hachage de taille 38000 : 0.037224 secondes
+Temps mis pour reconstituer le réseau avec une table de hachage de taille 45500 : 0.035333 secondes
+Temps mis pour reconstituer le réseau avec une table de hachage de taille 53000 : 0.033200 secondes
+Temps mis pour reconstituer le réseau avec une table de hachage de taille 60500 : 0.032602 secondes
+Temps mis pour reconstituer le réseau avec une table de hachage de taille 68000 : 0.034269 secondes
+Temps mis pour reconstituer le réseau avec une table de hachage de taille 75500 : 0.032354 secondes
+Temps mis pour reconstituer le réseau avec une table de hachage de taille 83000 : 0.030593 secondes
+Temps mis pour reconstituer le réseau avec une table de hachage de taille 90500 : 0.030221 secondes
+Temps mis pour reconstituer le réseau avec une table de hachage de taille 98000 : 0.033906 secondes
+Temps mis pour reconstituer le réseau avec une table de hachage de taille 105500 : 0.031814 secondes
+Temps mis pour reconstituer le réseau avec une table de hachage de taille 113000 : 0.030600 secondes
+Temps mis pour reconstituer le réseau avec une table de hachage de taille 120500 : 0.030252 secondes
+Temps mis pour reconstituer le réseau avec une table de hachage de taille 128000 : 0.034690 secondes
+Temps mis pour reconstituer le réseau avec une table de hachage de taille 135500 : 0.031889 secondes
+Temps mis pour reconstituer le réseau avec une table de hachage de taille 143000 : 0.030157 secondes
+
+
+2000 CHAINES
+
+Nombre de chaînes : 2000
+Nombre total de points : 200000
+
+Temps mis pour reconstituer le réseau avec la liste chaînée : 590.528537 secondes
+
+Temps mis pour reconstituer le réseau avec une table de hachage de taille 500 : 1.203958 secondes
+Temps mis pour reconstituer le réseau avec une table de hachage de taille 10500 : 0.099448 secondes
+Temps mis pour reconstituer le réseau avec une table de hachage de taille 20500 : 0.092321 secondes
+Temps mis pour reconstituer le réseau avec une table de hachage de taille 30500 : 0.069890 secondes
+Temps mis pour reconstituer le réseau avec une table de hachage de taille 40500 : 0.066114 secondes
+Temps mis pour reconstituer le réseau avec une table de hachage de taille 50500 : 0.062214 secondes
+Temps mis pour reconstituer le réseau avec une table de hachage de taille 60500 : 0.061250 secondes
+Temps mis pour reconstituer le réseau avec une table de hachage de taille 70500 : 0.052614 secondes
+Temps mis pour reconstituer le réseau avec une table de hachage de taille 80500 : 0.053583 secondes
+Temps mis pour reconstituer le réseau avec une table de hachage de taille 90500 : 0.065706 secondes
+Temps mis pour reconstituer le réseau avec une table de hachage de taille 100500 : 0.049984 secondes
+Temps mis pour reconstituer le réseau avec une table de hachage de taille 110500 : 0.051627 secondes
+Temps mis pour reconstituer le réseau avec une table de hachage de taille 120500 : 0.053714 secondes
+Temps mis pour reconstituer le réseau avec une table de hachage de taille 130500 : 0.051155 secondes
+Temps mis pour reconstituer le réseau avec une table de hachage de taille 140500 : 0.048272 secondes
+Temps mis pour reconstituer le réseau avec une table de hachage de taille 150500 : 0.052338 secondes
+Temps mis pour reconstituer le réseau avec une table de hachage de taille 160500 : 0.051111 secondes
+Temps mis pour reconstituer le réseau avec une table de hachage de taille 170500 : 0.044852 secondes
+Temps mis pour reconstituer le réseau avec une table de hachage de taille 180500 : 0.050908 secondes
+Temps mis pour reconstituer le réseau avec une table de hachage de taille 190500 : 0.051742 secondes
+
+
+2500 CHAINES
+
+Nombre de chaînes : 2500
+Nombre total de points : 250000
+
+Temps mis pour reconstituer le réseau avec la liste chaînée : 1958.690726 secondes
+
+Temps mis pour reconstituer le réseau avec une table de hachage de taille 500 : 2.346078 secondes
+Temps mis pour reconstituer le réseau avec une table de hachage de taille 13000 : 0.148728 secondes
+Temps mis pour reconstituer le réseau avec une table de hachage de taille 25500 : 0.187040 secondes
+Temps mis pour reconstituer le réseau avec une table de hachage de taille 38000 : 0.103889 secondes
+Temps mis pour reconstituer le réseau avec une table de hachage de taille 50500 : 0.099595 secondes
+Temps mis pour reconstituer le réseau avec une table de hachage de taille 63000 : 0.092918 secondes
+Temps mis pour reconstituer le réseau avec une table de hachage de taille 75500 : 0.081231 secondes
+Temps mis pour reconstituer le réseau avec une table de hachage de taille 88000 : 0.081541 secondes
+Temps mis pour reconstituer le réseau avec une table de hachage de taille 100500 : 0.079448 secondes
+Temps mis pour reconstituer le réseau avec une table de hachage de taille 113000 : 0.079354 secondes
+Temps mis pour reconstituer le réseau avec une table de hachage de taille 125500 : 0.089680 secondes
+Temps mis pour reconstituer le réseau avec une table de hachage de taille 138000 : 0.074816 secondes
+Temps mis pour reconstituer le réseau avec une table de hachage de taille 150500 : 0.075678 secondes
+Temps mis pour reconstituer le réseau avec une table de hachage de taille 163000 : 0.080598 secondes
+Temps mis pour reconstituer le réseau avec une table de hachage de taille 175500 : 0.071417 secondes
+Temps mis pour reconstituer le réseau avec une table de hachage de taille 188000 : 0.072519 secondes
+Temps mis pour reconstituer le réseau avec une table de hachage de taille 200500 : 0.079435 secondes
+Temps mis pour reconstituer le réseau avec une table de hachage de taille 213000 : 0.083352 secondes
+Temps mis pour reconstituer le réseau avec une table de hachage de taille 225500 : 0.069318 secondes
+Temps mis pour reconstituer le réseau avec une table de hachage de taille 238000 : 0.072780 secondes
+
+
+3000 CHAINES
+
+Nombre de chaînes : 3000
+Nombre total de points : 300000
+
+Temps mis pour reconstituer le réseau avec la liste chaînée : 2090.717214 secondes
+
+Temps mis pour reconstituer le réseau avec une table de hachage de taille 500 : 6.477125 secondes
+Temps mis pour reconstituer le réseau avec une table de hachage de taille 15500 : 0.270988 secondes
+Temps mis pour reconstituer le réseau avec une table de hachage de taille 30500 : 0.206472 secondes
+Temps mis pour reconstituer le réseau avec une table de hachage de taille 45500 : 0.171493 secondes
+Temps mis pour reconstituer le réseau avec une table de hachage de taille 60500 : 0.154928 secondes
+Temps mis pour reconstituer le réseau avec une table de hachage de taille 75500 : 0.140964 secondes
+Temps mis pour reconstituer le réseau avec une table de hachage de taille 90500 : 0.134010 secondes
+Temps mis pour reconstituer le réseau avec une table de hachage de taille 105500 : 0.129174 secondes
+Temps mis pour reconstituer le réseau avec une table de hachage de taille 120500 : 0.122494 secondes
+Temps mis pour reconstituer le réseau avec une table de hachage de taille 135500 : 0.120267 secondes
+Temps mis pour reconstituer le réseau avec une table de hachage de taille 150500 : 0.117253 secondes
+Temps mis pour reconstitu

@@ -36,15 +36,19 @@ void ecrire_temps_fichier(FILE* f, int nb_chaines, int nb_points_chaines, int xm
 
 
     int nb_pts_tot = nb_chaines*nb_points_chaines;
-    // int pas = (int) (nb_pts_tot/20);
+    int pas = (int) (nb_pts_tot/20);
 
-    for(int m=500; m<nb_pts_tot; m+=500) {
+    for(int m=500; m<nb_pts_tot; m+=pas) {
         temps = clock();
         R = reconstitueReseauHachage(C, m);
         temps = clock() - temps;
         fprintf(f, "Temps mis pour reconstituer le réseau avec une table de hachage de taille %d : %lf secondes\n", m, (double)temps/CLOCKS_PER_SEC);
         libererReseau(R);
     }
+
+    liberer_structure(C);
+
+
 }
 
 int main(){
@@ -62,9 +66,10 @@ int main(){
     int xmax = 5000;
     int ymax = 5000;
 
-    for(int nb_chaines = 500; nb_chaines<2000; nb_chaines+=500){
+    for(int nb_chaines = 500; nb_chaines<=5000; nb_chaines+=500){
 
         fprintf(f, "%d CHAINES\n\n", nb_chaines);
+        printf("nb chaines : %d\n", nb_chaines);
 
         ecrire_temps_fichier(f, nb_chaines, nb_points_chaine, xmax, ymax);
         fprintf(f, "\n\n");
